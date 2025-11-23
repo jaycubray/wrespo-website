@@ -1,20 +1,20 @@
 export default function ProblemSection() {
   const problems = [
     {
-      title: 'Calls go to voicemail after hours (or during lunch rush)',
-      impact: '67% of people won't leave a voicemail—they call your competitor',
+      title: `Calls go to voicemail after hours (or during lunch rush)`,
+      impact: `67% of people won't leave a voicemail—they call your competitor`,
     },
     {
-      title: 'Reviews sit unanswered for days',
-      impact: 'Hurting your rankings and losing trust with new customers',
+      title: `Reviews sit unanswered for days`,
+      impact: `Hurting your rankings and losing trust with new customers`,
     },
     {
-      title: 'Follow-ups never happen',
-      impact: 'Your team is too busy, and leads go cold within 5 minutes',
+      title: `Follow-ups never happen`,
+      impact: `Your team is too busy, and leads go cold within 5 minutes`,
     },
     {
-      title: 'Appointment setters quit constantly',
-      impact: 'You're always hiring, training, managing—and still missing opportunities',
+      title: `Appointment setters quit constantly`,
+      impact: `You're always hiring, training, managing—and still missing opportunities`,
     },
   ]
 
