@@ -78,7 +78,7 @@ export default function ContactPage() {
                     type="tel"
                     {...register('phone', { required: 'Phone is required' })}
                     error={errors.phone?.message}
-                    placeholder="(555) 123-4567"
+                    placeholder="(952) 314-3814"
                   />
 
                   <Input
@@ -136,7 +136,7 @@ export default function ContactPage() {
                       <div className="text-2xl">📞</div>
                       <div>
                         <p className="font-semibold text-dark">Phone</p>
-                        <p className="text-gray-600">(555) 123-4567</p>
+                        <p className="text-gray-600">(952) 314-3814</p>
                       </div>
                     </div>
 
@@ -163,7 +163,7 @@ export default function ContactPage() {
                       We typically respond within 2 hours during business hours.
                     </p>
                     <p className="font-semibold text-primary">
-                      Prefer to talk? Call us directly at (555) 123-4567
+                      Prefer to talk? Call us directly at (952) 314-3814
                     </p>
                   </div>
                 </div>

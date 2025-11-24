@@ -90,7 +90,7 @@ export default function FinalCTASection() {
 
           <div className="border-t border-white/30 mt-8 pt-8">
             <p className="text-white/90 mb-2">Questions? Text or call:</p>
-            <p className="text-2xl font-bold mb-1">(555) 123-4567</p>
+            <p className="text-2xl font-bold mb-1">(952) 314-3814</p>
             <p className="text-white/90 mb-1">Email: hello@wrespo.ai</p>
             <p className="text-sm text-white/70 mt-4">
               We typically respond in under 2 hours.

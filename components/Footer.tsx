@@ -45,7 +45,7 @@ export default function Footer() {
               <div className="space-y-2 text-sm">
                 <div className="flex items-center space-x-2">
                   <span>📞</span>
-                  <span>(555) 123-4567</span>
+                  <span>(952) 314-3814</span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <span>📧</span>
