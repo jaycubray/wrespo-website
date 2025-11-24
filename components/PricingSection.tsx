@@ -164,7 +164,7 @@ export default function PricingSection() {
               Take Our 60-Second Assessment
             </p>
             <p className="text-sm text-gray-600">
-              We'll recommend the right tier based on your lead volume, current systems, and revenue goals.
+              We&apos;ll recommend the right tier based on your lead volume, current systems, and revenue goals.
             </p>
           </div>
         </div>

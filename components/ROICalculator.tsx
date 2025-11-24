@@ -26,7 +26,7 @@ export default function ROICalculator() {
               Calculate Your Lost Revenue
             </h2>
             <p className="text-xl text-gray-600">
-              See how much money you're leaving on the table every month
+              See how much money you&apos;re leaving on the table every month
             </p>
           </div>
 
@@ -71,7 +71,7 @@ export default function ROICalculator() {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    What's your average job value?
+                    What&apos;s your average job value?
                   </label>
                   <div className="relative">
                     <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 text-lg">
@@ -153,7 +153,7 @@ export default function ROICalculator() {
 
               {/* Lost Revenue */}
               <div className="bg-gradient-to-br from-alert/20 to-alert/10 border-2 border-alert rounded-2xl p-6">
-                <h4 className="text-lg font-bold text-alert mb-2">💰 You're Losing:</h4>
+                <h4 className="text-lg font-bold text-alert mb-2">💰 You&apos;re Losing:</h4>
                 <div className="text-4xl md:text-5xl font-bold text-alert mb-3">
                   {formatCurrency(results.lostRevenue)}
                 </div>
@@ -161,11 +161,11 @@ export default function ROICalculator() {
                   Every. Single. Month.
                 </p>
                 <div className="mt-4 pt-4 border-t border-alert/50">
-                  <p className="text-sm text-gray-600">That's</p>
+                  <p className="text-sm text-gray-600">That&apos;s</p>
                   <p className="text-2xl font-bold text-alert">
                     {formatCurrency(results.annualLostRevenue)}
                   </p>
-                  <p className="text-sm text-gray-600">per year in revenue you're literally sleeping through.</p>
+                  <p className="text-sm text-gray-600">per year in revenue you&apos;re literally sleeping through.</p>
                 </div>
               </div>
 

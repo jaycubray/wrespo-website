@@ -26,7 +26,7 @@ export default function ProblemSection() {
             Why Service Businesses Lose 60-80% of Their Leads
           </h2>
           <p className="text-xl text-center text-gray-600 mb-12">
-            Every day, you're bleeding money because:
+            Every day, you&apos;re bleeding money because:
           </p>
 
           <div className="grid md:grid-cols-2 gap-8 mb-12">
@@ -45,7 +45,7 @@ export default function ProblemSection() {
 
           <div className="text-center bg-gray-100 rounded-xl p-8">
             <p className="text-xl font-semibold text-gray-700 mb-2">
-              The result? You're working harder, spending more on ads, but booking fewer jobs than you should.
+              The result? You&apos;re working harder, spending more on ads, but booking fewer jobs than you should.
             </p>
             <p className="text-2xl font-bold text-primary">Sound familiar?</p>
           </div>

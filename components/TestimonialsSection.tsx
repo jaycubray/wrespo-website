@@ -46,7 +46,7 @@ export default function TestimonialsSection() {
                   ))}
                 </div>
                 <p className="text-gray-700 mb-6 flex-1 italic">
-                  "{testimonial.quote}"
+                  &quot;{testimonial.quote}&quot;
                 </p>
                 <div className="border-t pt-4">
                   <p className="font-bold text-dark">{testimonial.name}</p>

@@ -30,7 +30,7 @@ export default function SolutionSection() {
             Wrespo AI: The Complete Lead-to-Revenue System
           </h2>
           <p className="text-xl text-center text-gray-600 mb-3">
-            We don't just give you an AI chatbot and wish you luck.
+            We don&apos;t just give you an AI chatbot and wish you luck.
           </p>
           <p className="text-lg text-center text-gray-600 mb-12">
             We build a complete system that generates leads, converts them instantly, and books them into your calendar—all on autopilot.
