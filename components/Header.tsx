@@ -2,12 +2,15 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { usePathname, useRouter } from 'next/navigation'
 import Button from './ui/Button'
 import { cn } from '@/lib/utils'
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const pathname = usePathname()
+  const router = useRouter()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -18,7 +21,36 @@ export default function Header() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  // Handle hash navigation when landing on homepage with hash
+  useEffect(() => {
+    if (pathname === '/' && window.location.hash) {
+      const id = window.location.hash.substring(1)
+      setTimeout(() => {
+        const element = document.getElementById(id)
+        if (element) {
+          const offset = 80
+          const elementPosition = element.getBoundingClientRect().top
+          const offsetPosition = elementPosition + window.pageYOffset - offset
+
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth',
+          })
+        }
+      }, 100)
+    }
+  }, [pathname])
+
   const scrollToSection = (id: string) => {
+    setIsMobileMenuOpen(false)
+
+    // If we're not on the homepage, navigate to homepage with hash
+    if (pathname !== '/') {
+      router.push(`/#${id}`)
+      return
+    }
+
+    // If we're on homepage, scroll to section
     const element = document.getElementById(id)
     if (element) {
       const offset = 80
@@ -29,7 +61,6 @@ export default function Header() {
         top: offsetPosition,
         behavior: 'smooth',
       })
-      setIsMobileMenuOpen(false)
     }
   }
 
