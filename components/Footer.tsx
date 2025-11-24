@@ -5,7 +5,7 @@ export default function Footer() {
     <footer className="bg-dark text-white pt-12 pb-8">
       <div className="container mx-auto px-4">
         {/* Trust Badges */}
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
           <div className="text-center">
             <div className="text-secondary font-bold text-2xl mb-1">100+</div>
             <div className="text-sm text-gray-400">B2C businesses automated</div>
@@ -21,14 +21,6 @@ export default function Footer() {
           <div className="text-center">
             <div className="text-secondary font-bold text-lg mb-1">✓</div>
             <div className="text-sm text-gray-400">TCPA compliant</div>
-          </div>
-          <div className="text-center">
-            <div className="text-secondary font-bold text-lg mb-1">✓</div>
-            <div className="text-sm text-gray-400">SOC 2 Type II certified</div>
-          </div>
-          <div className="text-center">
-            <div className="text-secondary font-bold text-lg mb-1">✓</div>
-            <div className="text-sm text-gray-400">30-day guarantee</div>
           </div>
         </div>
 
