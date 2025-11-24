@@ -1,3 +1,5 @@
+import Link from 'next/link'
+
 export default function IndustriesSection() {
   const industries = [
     {
@@ -54,9 +56,11 @@ export default function IndustriesSection() {
             <p className="text-2xl font-bold text-dark mb-4">
               If you book appointments over the phone, we can help you book more of them.
             </p>
-            <button className="text-primary font-semibold hover:underline text-lg">
-              See If We're a Fit →
-            </button>
+            <Link href="/contact">
+              <button className="text-primary font-semibold hover:underline text-lg">
+                See If We're a Fit →
+              </button>
+            </Link>
           </div>
         </div>
       </div>

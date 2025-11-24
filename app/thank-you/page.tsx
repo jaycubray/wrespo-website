@@ -27,7 +27,7 @@ export default function ThankYouPage() {
 
               <div className="space-y-4">
                 <Link
-                  href="#"
+                  href="/case-studies/peterson-hvac"
                   className="block p-4 bg-light rounded-lg hover:bg-gray-200 transition-colors text-left"
                 >
                   <div className="flex items-center space-x-4">
@@ -44,7 +44,7 @@ export default function ThankYouPage() {
                 </Link>
 
                 <Link
-                  href="#"
+                  href="/"
                   className="block p-4 bg-light rounded-lg hover:bg-gray-200 transition-colors text-left"
                 >
                   <div className="flex items-center space-x-4">
@@ -61,7 +61,7 @@ export default function ThankYouPage() {
                 </Link>
 
                 <Link
-                  href="#"
+                  href="/"
                   className="block p-4 bg-light rounded-lg hover:bg-gray-200 transition-colors text-left"
                 >
                   <div className="flex items-center space-x-4">

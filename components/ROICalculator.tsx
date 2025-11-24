@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import Link from 'next/link'
 import Button from './ui/Button'
 import Input from './ui/Input'
 import { calculateROI } from '@/lib/calculations'
@@ -169,9 +170,11 @@ export default function ROICalculator() {
                 </div>
               </div>
 
-              <Button size="lg" className="w-full">
-                Get Your Custom ROI Breakdown
-              </Button>
+              <Link href="/contact">
+                <Button size="lg" className="w-full">
+                  Get Your Custom ROI Breakdown
+                </Button>
+              </Link>
             </div>
           </div>
         </div>

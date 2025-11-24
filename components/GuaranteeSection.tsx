@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import Button from './ui/Button'
 
 export default function GuaranteeSection() {
@@ -57,7 +58,9 @@ export default function GuaranteeSection() {
               </p>
             </div>
 
-            <Button size="lg">Claim Your Guarantee</Button>
+            <Link href="/contact">
+              <Button size="lg">Claim Your Guarantee</Button>
+            </Link>
           </div>
         </div>
       </div>

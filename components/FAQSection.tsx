@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 
 export default function FAQSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(null)
@@ -73,9 +74,11 @@ export default function FAQSection() {
           </div>
 
           <div className="text-center mt-8">
-            <button className="text-primary font-semibold hover:underline text-lg">
-              Still Have Questions? Talk to Our Team →
-            </button>
+            <Link href="/contact">
+              <button className="text-primary font-semibold hover:underline text-lg">
+                Still Have Questions? Talk to Our Team →
+              </button>
+            </Link>
           </div>
         </div>
       </div>

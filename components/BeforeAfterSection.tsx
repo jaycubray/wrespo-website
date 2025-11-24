@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import Button from './ui/Button'
 import { formatCurrency } from '@/lib/utils'
 
@@ -67,7 +68,9 @@ export default function BeforeAfterSection() {
             </div>
 
             <div className="mt-8">
-              <Button size="lg">Get Your Custom ROI Breakdown</Button>
+              <Link href="/contact">
+                <Button size="lg">Get Your Custom ROI Breakdown</Button>
+              </Link>
             </div>
           </div>
         </div>

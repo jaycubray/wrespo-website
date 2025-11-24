@@ -1,7 +1,23 @@
+'use client'
+
 import Card from './ui/Card'
 import Button from './ui/Button'
+import Link from 'next/link'
 
 export default function PricingSection() {
+  const scrollToCalculator = () => {
+    const element = document.getElementById('calculator')
+    if (element) {
+      const offset = 80
+      const elementPosition = element.getBoundingClientRect().top
+      const offsetPosition = elementPosition + window.pageYOffset - offset
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth',
+      })
+    }
+  }
+
   const tiers = [
     {
       name: 'FOUNDATION',
@@ -21,6 +37,7 @@ export default function PricingSection() {
       results: '3-5× more reviews, 4.5+ star rating',
       cta: 'Get Started',
       variant: 'outline' as const,
+      action: 'contact' as const,
     },
     {
       name: 'COMPLETE SYSTEM',
@@ -44,6 +61,7 @@ export default function PricingSection() {
       cta: 'Calculate My ROI',
       variant: 'primary' as const,
       highlighted: true,
+      action: 'calculator' as const,
     },
     {
       name: 'ENTERPRISE GROWTH',
@@ -68,6 +86,7 @@ export default function PricingSection() {
       increase: '$100K-$300K/month in revenue',
       cta: 'Schedule Consultation',
       variant: 'secondary' as const,
+      action: 'contact' as const,
     },
   ]
 
@@ -144,12 +163,24 @@ export default function PricingSection() {
                       )}
                     </div>
 
-                    <Button
-                      variant={tier.variant}
-                      className="w-full"
-                    >
-                      {tier.cta}
-                    </Button>
+                    {tier.action === 'contact' ? (
+                      <Link href="/contact">
+                        <Button
+                          variant={tier.variant}
+                          className="w-full"
+                        >
+                          {tier.cta}
+                        </Button>
+                      </Link>
+                    ) : (
+                      <Button
+                        variant={tier.variant}
+                        className="w-full"
+                        onClick={scrollToCalculator}
+                      >
+                        {tier.cta}
+                      </Button>
+                    )}
                   </div>
                 </Card>
               </div>

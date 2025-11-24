@@ -1,8 +1,27 @@
+'use client'
+
+import { useState } from 'react'
 import Button from './ui/Button'
 import Link from 'next/link'
+import Modal from './ui/Modal'
 
 export default function FinalCTASection() {
+  const [showVideo, setShowVideo] = useState(false)
+
+  const scrollToCalculator = () => {
+    const element = document.getElementById('calculator')
+    if (element) {
+      const offset = 80
+      const elementPosition = element.getBoundingClientRect().top
+      const offsetPosition = elementPosition + window.pageYOffset - offset
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth',
+      })
+    }
+  }
   return (
+    <>
     <section className="py-20 bg-gradient-to-br from-primary to-primary/80 text-white">
       <div className="container mx-auto px-4">
         <div className="max-w-4xl mx-auto text-center">
@@ -49,13 +68,21 @@ export default function FinalCTASection() {
           <div className="border-t border-white/30 pt-8">
             <p className="text-lg mb-4">Or, if you're ready to see the numbers first:</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="text-white hover:text-secondary font-semibold">
+              <button
+                onClick={scrollToCalculator}
+                className="text-white hover:text-secondary font-semibold"
+              >
                 • Calculate My Lost Revenue
               </button>
-              <button className="text-white hover:text-secondary font-semibold">
-                • Download Case Study: HVAC Company Added $127K/Month
-              </button>
-              <button className="text-white hover:text-secondary font-semibold">
+              <Link href="/case-studies/peterson-hvac">
+                <button className="text-white hover:text-secondary font-semibold">
+                  • Download Case Study: HVAC Company Added $127K/Month
+                </button>
+              </Link>
+              <button
+                onClick={() => setShowVideo(true)}
+                className="text-white hover:text-secondary font-semibold"
+              >
                 • Watch 2-Minute Demo Video
               </button>
             </div>
@@ -74,5 +101,16 @@ export default function FinalCTASection() {
         </div>
       </div>
     </section>
+
+    {/* Video Modal */}
+    <Modal isOpen={showVideo} onClose={() => setShowVideo(false)}>
+      <div className="p-8">
+        <h3 className="text-2xl font-bold mb-4">See Wrespo AI in Action</h3>
+        <div className="aspect-video bg-gray-200 rounded-lg flex items-center justify-center">
+          <p className="text-gray-500">Video placeholder - Add your demo video here</p>
+        </div>
+      </div>
+    </Modal>
+    </>
   )
 }
