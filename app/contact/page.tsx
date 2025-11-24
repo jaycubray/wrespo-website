@@ -26,14 +26,31 @@ export default function ContactPage() {
 
   const onSubmit = async (data: FormData) => {
     setIsSubmitting(true)
-    // Here you would normally send the data to your backend/API
-    console.log('Form data:', data)
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000))
+    try {
+      // Send to HubSpot
+      const response = await fetch('/api/hubspot', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
 
-    // Redirect to thank you page
-    router.push('/thank-you')
+      if (!response.ok) {
+        const errorData = await response.json()
+        console.error('Failed to create HubSpot contact:', errorData)
+        // Still redirect even if HubSpot fails
+      } else {
+        console.log('Contact created successfully in HubSpot')
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error)
+      // Still redirect even if there's an error
+    } finally {
+      // Always redirect to thank you page
+      router.push('/thank-you')
+    }
   }
 
   return (
