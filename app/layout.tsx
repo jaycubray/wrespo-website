@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
+import ElevenLabsWidget from '@/components/ElevenLabsWidget'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -24,14 +25,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <head>
-        <script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
-      </head>
       <body>
         <Header />
         <main>{children}</main>
         <Footer />
-        <elevenlabs-convai agent-id="agent_6301kasser8ge3g9705dxp48mraw"></elevenlabs-convai>
+        <ElevenLabsWidget />
       </body>
     </html>
   )
