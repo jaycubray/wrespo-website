@@ -27,6 +27,9 @@ yarn-error.log*
 # local env files
 .env*.local
 
+# hubspot config (contains secrets)
+hubspot.config.yml
+
 # vercel
 .vercel
 

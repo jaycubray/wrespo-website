@@ -1,10 +1,30 @@
 'use client'
 
-import Card from './ui/Card'
+import { useEffect, useRef, useState } from 'react'
 import Button from './ui/Button'
 import Link from 'next/link'
 
 export default function PricingSection() {
+  const [isVisible, setIsVisible] = useState(false)
+  const sectionRef = useRef<HTMLElement>(null)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true)
+        }
+      },
+      { threshold: 0.1 }
+    )
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current)
+    }
+
+    return () => observer.disconnect()
+  }, [])
+
   const scrollToCalculator = () => {
     const element = document.getElementById('calculator')
     if (element) {
@@ -34,14 +54,14 @@ export default function PricingSection() {
         'Email support (24hr response)',
       ],
       bestFor: 'Businesses with organic lead flow',
-      results: '3-5× more reviews, 4.5+ star rating',
+      results: '3-5x more reviews, 4.5+ star rating',
       cta: 'Get Started',
       variant: 'outline' as const,
       action: 'contact' as const,
     },
     {
       name: 'COMPLETE SYSTEM',
-      badge: '⭐ MOST POPULAR',
+      badge: 'MOST POPULAR',
       tagline: 'Full Lead Generation + AI Conversion Engine',
       setupFee: 9500,
       monthlyFee: 1997,
@@ -65,7 +85,7 @@ export default function PricingSection() {
     },
     {
       name: 'ENTERPRISE GROWTH',
-      badge: '👑',
+      badge: 'PREMIUM',
       tagline: 'Proactive Outbound + Strategic Consulting',
       setupFee: 15000,
       monthlyFee: 3997,
@@ -91,112 +111,166 @@ export default function PricingSection() {
   ]
 
   return (
-    <section id="pricing" className="py-20 bg-white">
-      <div className="container mx-auto px-4">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl md:text-5xl font-bold text-center mb-4 text-dark">
-            Choose Your Growth Path
-          </h2>
-          <p className="text-xl text-center text-gray-600 mb-12">
-            Pick the system that matches where you are now:
-          </p>
+    <section ref={sectionRef} id="pricing" className="py-24 bg-gradient-to-b from-white to-light relative overflow-hidden">
+      {/* Decorative Elements */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-secondary/5 rounded-full blur-3xl" />
+      </div>
 
-          <div className="grid md:grid-cols-3 gap-8 mb-8">
+      <div className="container mx-auto px-4 relative z-10">
+        <div className="max-w-7xl mx-auto">
+          {/* Section Header */}
+          <div className={`text-center mb-16 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+            <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-semibold mb-4">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              Investment That Pays For Itself
+            </div>
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 text-dark">
+              Choose Your Growth Path
+            </h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Pick the system that matches where you are now. All plans include our 90-day performance guarantee.
+            </p>
+          </div>
+
+          {/* Pricing Cards */}
+          <div className="grid lg:grid-cols-3 gap-8 mb-16">
             {tiers.map((tier, index) => (
-              <div key={index} className="relative">
+              <div
+                key={index}
+                className={`relative transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
+                style={{ transitionDelay: `${index * 150}ms` }}
+              >
+                {/* Highlighted Card Glow Effect */}
                 {tier.highlighted && (
-                  <div className="absolute -top-4 left-0 right-0 flex justify-center">
-                    <span className="bg-secondary text-dark px-4 py-1 rounded-full text-sm font-bold">
-                      MOST POPULAR
-                    </span>
-                  </div>
+                  <div className="absolute -inset-1 bg-gradient-to-r from-primary via-secondary to-primary rounded-3xl blur-lg opacity-30 animate-gradient" />
                 )}
-                <Card
-                  className={`h-full flex flex-col ${
-                    tier.highlighted ? 'border-2 border-primary shadow-2xl' : ''
+
+                <div
+                  className={`relative h-full flex flex-col rounded-2xl p-8 transition-all duration-300 ${
+                    tier.highlighted
+                      ? 'bg-white shadow-2xl border-2 border-primary/20 scale-105 lg:scale-110 z-10'
+                      : 'bg-white shadow-lg hover:shadow-xl border border-gray-100 hover:border-primary/20'
                   }`}
                 >
-                  <div className="text-center mb-6">
-                    {tier.badge && (
-                      <div className="text-3xl mb-2">{tier.badge}</div>
-                    )}
-                    <h3 className="text-2xl font-bold mb-2 text-dark">{tier.name}</h3>
-                    <p className="text-sm text-gray-600">{tier.tagline}</p>
+                  {/* Badge */}
+                  {tier.badge && (
+                    <div className={`absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1.5 rounded-full text-xs font-bold tracking-wide ${
+                      tier.highlighted
+                        ? 'bg-gradient-to-r from-primary to-blue-600 text-white shadow-lg'
+                        : 'bg-gray-100 text-gray-600'
+                    }`}>
+                      {tier.badge}
+                    </div>
+                  )}
+
+                  {/* Header */}
+                  <div className="text-center mb-8 pt-2">
+                    <h3 className="text-xl font-bold mb-2 text-dark tracking-wide">{tier.name}</h3>
+                    <p className="text-sm text-gray-500">{tier.tagline}</p>
                   </div>
 
-                  <div className="text-center mb-6 pb-6 border-b">
-                    <div className="text-4xl font-bold text-primary mb-2">
-                      ${tier.setupFee.toLocaleString()}
+                  {/* Pricing */}
+                  <div className="text-center mb-8 pb-8 border-b border-gray-100">
+                    <div className="flex items-baseline justify-center gap-1 mb-2">
+                      <span className="text-xl text-gray-500">$</span>
+                      <span className={`text-5xl font-bold ${tier.highlighted ? 'gradient-text' : 'text-dark'}`}>
+                        {tier.setupFee.toLocaleString()}
+                      </span>
                     </div>
-                    <div className="text-sm text-gray-600 mb-1">Setup fee</div>
-                    <div className="text-2xl font-bold text-dark">
-                      +${tier.monthlyFee.toLocaleString()}/mo
+                    <p className="text-sm text-gray-500 mb-3">One-time setup</p>
+                    <div className="inline-flex items-center gap-1 bg-gray-50 rounded-full px-4 py-2">
+                      <span className="text-lg font-bold text-dark">
+                        +${tier.monthlyFee.toLocaleString()}
+                      </span>
+                      <span className="text-sm text-gray-500">/month</span>
                     </div>
                   </div>
 
-                  <ul className="space-y-3 mb-6 flex-1">
+                  {/* Features */}
+                  <ul className="space-y-4 mb-8 flex-1">
                     {tier.features.map((feature, i) => (
-                      <li key={i} className="flex items-start">
-                        <span className="text-secondary mr-2 flex-shrink-0">✓</span>
+                      <li key={i} className="flex items-start gap-3">
+                        <div className={`flex-shrink-0 w-5 h-5 rounded-full flex items-center justify-center mt-0.5 ${
+                          tier.highlighted ? 'bg-secondary/20' : 'bg-gray-100'
+                        }`}>
+                          <svg className={`w-3 h-3 ${tier.highlighted ? 'text-secondary' : 'text-gray-600'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                          </svg>
+                        </div>
                         <span className="text-sm text-gray-700">{feature}</span>
                       </li>
                     ))}
                   </ul>
 
-                  <div className="space-y-4">
-                    <div className="bg-light rounded-lg p-4">
-                      <p className="text-xs font-semibold text-gray-600 mb-1">
-                        BEST FOR:
-                      </p>
-                      <p className="text-sm text-dark">{tier.bestFor}</p>
+                  {/* Results Cards */}
+                  <div className="space-y-3 mb-6">
+                    <div className="bg-gray-50 rounded-xl p-4">
+                      <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Best For</p>
+                      <p className="text-sm font-medium text-dark">{tier.bestFor}</p>
                     </div>
 
-                    <div className="bg-secondary/10 rounded-lg p-4">
-                      <p className="text-xs font-semibold text-gray-600 mb-1">
-                        TYPICAL RESULTS:
-                      </p>
-                      <p className="text-sm font-semibold text-dark">{tier.results}</p>
+                    <div className={`rounded-xl p-4 ${tier.highlighted ? 'bg-gradient-to-br from-secondary/10 to-primary/5' : 'bg-secondary/5'}`}>
+                      <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Typical Results</p>
+                      <p className="text-sm font-bold text-dark">{tier.results}</p>
                       {tier.increase && (
-                        <p className="text-xs text-secondary font-semibold mt-1">
-                          {tier.increase}
-                        </p>
+                        <p className="text-xs font-semibold text-secondary mt-1">{tier.increase}</p>
                       )}
                     </div>
-
-                    {tier.action === 'contact' ? (
-                      <Link href="/contact">
-                        <Button
-                          variant={tier.variant}
-                          className="w-full"
-                        >
-                          {tier.cta}
-                        </Button>
-                      </Link>
-                    ) : (
-                      <Button
-                        variant={tier.variant}
-                        className="w-full"
-                        onClick={scrollToCalculator}
-                      >
-                        {tier.cta}
-                      </Button>
-                    )}
                   </div>
-                </Card>
+
+                  {/* CTA */}
+                  {tier.action === 'contact' ? (
+                    <Link href="/contact" className="block">
+                      <Button variant={tier.variant} className="w-full" pulse={tier.highlighted}>
+                        {tier.cta}
+                        <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
+                      </Button>
+                    </Link>
+                  ) : (
+                    <Button
+                      variant={tier.variant}
+                      className="w-full"
+                      onClick={scrollToCalculator}
+                      pulse={tier.highlighted}
+                    >
+                      {tier.cta}
+                      <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                      </svg>
+                    </Button>
+                  )}
+                </div>
               </div>
             ))}
           </div>
 
-          <div className="text-center bg-light rounded-xl p-8">
-            <p className="text-lg text-gray-700 mb-4">
-              Not sure which package fits your business?
-            </p>
-            <p className="text-2xl font-bold text-primary mb-4">
-              Take Our 60-Second Assessment
-            </p>
-            <p className="text-sm text-gray-600">
-              We&apos;ll recommend the right tier based on your lead volume, current systems, and revenue goals.
-            </p>
+          {/* Bottom CTA */}
+          <div className={`text-center bg-gradient-to-br from-primary/5 to-secondary/5 rounded-2xl p-8 md:p-12 border border-primary/10 transition-all duration-700 delay-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+            <div className="max-w-2xl mx-auto">
+              <p className="text-lg text-gray-700 mb-3">
+                Not sure which package fits your business?
+              </p>
+              <h3 className="text-2xl md:text-3xl font-bold gradient-text mb-4">
+                Take Our 60-Second Assessment
+              </h3>
+              <p className="text-gray-600 mb-6">
+                We&apos;ll recommend the right tier based on your lead volume, current systems, and revenue goals.
+              </p>
+              <Link href="/contact">
+                <Button size="lg" variant="primary">
+                  Get Personalized Recommendation
+                  <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
       </div>

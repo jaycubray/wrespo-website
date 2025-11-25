@@ -67,124 +67,144 @@ export default function Header() {
   return (
     <header
       className={cn(
-        'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
-        isScrolled ? 'bg-white shadow-md' : 'bg-transparent'
+        'fixed top-0 left-0 right-0 z-50 transition-all duration-500',
+        isScrolled
+          ? 'bg-white/80 backdrop-blur-xl shadow-[0_2px_20px_rgba(0,0,0,0.08)] border-b border-gray-100/50'
+          : 'bg-transparent'
       )}
     >
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <Link href="/" className="text-2xl font-bold text-dark">
-            Wrespo<span className="text-primary">.ai</span>
+          <Link href="/" className="text-2xl font-bold text-dark group flex items-center gap-1">
+            <span className="relative">
+              Wrespo
+              <span className="gradient-text">.ai</span>
+            </span>
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
+          <nav className="hidden md:flex items-center space-x-1">
             <button
               onClick={() => scrollToSection('calculator')}
-              className="text-dark hover:text-primary transition-colors"
+              className="relative px-4 py-2 text-sm font-medium text-gray-700 hover:text-primary transition-colors rounded-lg hover:bg-primary/5"
             >
               ROI Calculator
             </button>
             <button
               onClick={() => scrollToSection('how-it-works')}
-              className="text-dark hover:text-primary transition-colors"
+              className="relative px-4 py-2 text-sm font-medium text-gray-700 hover:text-primary transition-colors rounded-lg hover:bg-primary/5"
             >
               How It Works
             </button>
             <button
               onClick={() => scrollToSection('pricing')}
-              className="text-dark hover:text-primary transition-colors"
+              className="relative px-4 py-2 text-sm font-medium text-gray-700 hover:text-primary transition-colors rounded-lg hover:bg-primary/5"
             >
               Pricing
             </button>
             <Link
               href="/case-studies"
-              className="text-dark hover:text-primary transition-colors"
+              className="relative px-4 py-2 text-sm font-medium text-gray-700 hover:text-primary transition-colors rounded-lg hover:bg-primary/5"
             >
               Case Studies
             </Link>
             <Link
               href="/about"
-              className="text-dark hover:text-primary transition-colors"
+              className="relative px-4 py-2 text-sm font-medium text-gray-700 hover:text-primary transition-colors rounded-lg hover:bg-primary/5"
             >
               About
             </Link>
-            <Link href="/contact">
-              <Button size="sm">Schedule Assessment</Button>
-            </Link>
+            <div className="pl-4">
+              <Link href="/contact">
+                <Button size="sm">
+                  Schedule Assessment
+                  <svg className="w-4 h-4 ml-1.5 -mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </Button>
+              </Link>
+            </div>
           </nav>
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden text-dark"
+            className="md:hidden relative w-10 h-10 flex items-center justify-center rounded-lg hover:bg-gray-100 transition-colors"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label="Toggle menu"
           >
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              {isMobileMenuOpen ? (
-                <path d="M6 18L18 6M6 6l12 12" />
-              ) : (
-                <path d="M4 6h16M4 12h16M4 18h16" />
-              )}
-            </svg>
+            <div className="w-5 h-5 flex flex-col items-center justify-center">
+              <span
+                className={cn(
+                  'w-5 h-0.5 bg-dark rounded-full transition-all duration-300',
+                  isMobileMenuOpen ? 'rotate-45 translate-y-0.5' : '-translate-y-1'
+                )}
+              />
+              <span
+                className={cn(
+                  'w-5 h-0.5 bg-dark rounded-full transition-all duration-300',
+                  isMobileMenuOpen ? 'opacity-0' : 'opacity-100'
+                )}
+              />
+              <span
+                className={cn(
+                  'w-5 h-0.5 bg-dark rounded-full transition-all duration-300',
+                  isMobileMenuOpen ? '-rotate-45 -translate-y-0.5' : 'translate-y-1'
+                )}
+              />
+            </div>
           </button>
         </div>
 
         {/* Mobile Menu */}
-        {isMobileMenuOpen && (
-          <div className="md:hidden bg-white border-t border-gray-200 py-4">
-            <nav className="flex flex-col space-y-4">
-              <button
-                onClick={() => scrollToSection('calculator')}
-                className="text-dark hover:text-primary transition-colors text-left px-4"
-              >
-                ROI Calculator
-              </button>
-              <button
-                onClick={() => scrollToSection('how-it-works')}
-                className="text-dark hover:text-primary transition-colors text-left px-4"
-              >
-                How It Works
-              </button>
-              <button
-                onClick={() => scrollToSection('pricing')}
-                className="text-dark hover:text-primary transition-colors text-left px-4"
-              >
-                Pricing
-              </button>
-              <Link
-                href="/case-studies"
-                className="text-dark hover:text-primary transition-colors px-4"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                Case Studies
+        <div
+          className={cn(
+            'md:hidden overflow-hidden transition-all duration-300 ease-out',
+            isMobileMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+          )}
+        >
+          <nav className="flex flex-col py-4 border-t border-gray-100 bg-white/95 backdrop-blur-xl rounded-b-2xl">
+            <button
+              onClick={() => scrollToSection('calculator')}
+              className="text-gray-700 hover:text-primary hover:bg-primary/5 transition-colors text-left px-4 py-3 rounded-lg mx-2"
+            >
+              ROI Calculator
+            </button>
+            <button
+              onClick={() => scrollToSection('how-it-works')}
+              className="text-gray-700 hover:text-primary hover:bg-primary/5 transition-colors text-left px-4 py-3 rounded-lg mx-2"
+            >
+              How It Works
+            </button>
+            <button
+              onClick={() => scrollToSection('pricing')}
+              className="text-gray-700 hover:text-primary hover:bg-primary/5 transition-colors text-left px-4 py-3 rounded-lg mx-2"
+            >
+              Pricing
+            </button>
+            <Link
+              href="/case-studies"
+              className="text-gray-700 hover:text-primary hover:bg-primary/5 transition-colors px-4 py-3 rounded-lg mx-2"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Case Studies
+            </Link>
+            <Link
+              href="/about"
+              className="text-gray-700 hover:text-primary hover:bg-primary/5 transition-colors px-4 py-3 rounded-lg mx-2"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              About
+            </Link>
+            <div className="px-4 pt-2">
+              <Link href="/contact" onClick={() => setIsMobileMenuOpen(false)}>
+                <Button size="sm" className="w-full">
+                  Schedule Assessment
+                </Button>
               </Link>
-              <Link
-                href="/about"
-                className="text-dark hover:text-primary transition-colors px-4"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                About
-              </Link>
-              <div className="px-4">
-                <Link href="/contact" onClick={() => setIsMobileMenuOpen(false)}>
-                  <Button size="sm" className="w-full">
-                    Schedule Assessment
-                  </Button>
-                </Link>
-              </div>
-            </nav>
-          </div>
-        )}
+            </div>
+          </nav>
+        </div>
       </div>
     </header>
   )
