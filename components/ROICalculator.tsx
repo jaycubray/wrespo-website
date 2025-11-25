@@ -170,7 +170,7 @@ export default function ROICalculator() {
                 </div>
               </div>
 
-              <Link href="/contact">
+              <Link href="/contact" className="block mt-8">
                 <Button size="lg" className="w-full">
                   Get Your Custom ROI Breakdown
                 </Button>
