@@ -6,9 +6,17 @@ import { usePathname, useRouter } from 'next/navigation'
 import Button from './ui/Button'
 import { cn } from '@/lib/utils'
 
+const industries = [
+  { name: 'Home Services', href: '/industries/home-services' },
+  { name: 'Health & Wellness', href: '/industries/health-wellness' },
+  { name: 'Automotive', href: '/industries/automotive' },
+  { name: 'Property Services', href: '/industries/property-services' },
+]
+
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [isIndustriesOpen, setIsIndustriesOpen] = useState(false)
   const pathname = usePathname()
   const router = useRouter()
 
@@ -103,6 +111,43 @@ export default function Header() {
             >
               Pricing
             </button>
+            {/* Industries Dropdown */}
+            <div
+              className="relative"
+              onMouseEnter={() => setIsIndustriesOpen(true)}
+              onMouseLeave={() => setIsIndustriesOpen(false)}
+            >
+              <button
+                className="relative px-4 py-2 text-sm font-medium text-gray-700 hover:text-primary transition-colors rounded-lg hover:bg-primary/5 flex items-center gap-1"
+              >
+                Industries
+                <svg
+                  className={cn("w-4 h-4 transition-transform", isIndustriesOpen && "rotate-180")}
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              {/* Dropdown Menu */}
+              <div
+                className={cn(
+                  "absolute top-full left-0 mt-1 w-56 bg-white rounded-xl shadow-xl border border-gray-100 py-2 transition-all duration-200",
+                  isIndustriesOpen ? "opacity-100 translate-y-0 visible" : "opacity-0 -translate-y-2 invisible"
+                )}
+              >
+                {industries.map((industry) => (
+                  <Link
+                    key={industry.href}
+                    href={industry.href}
+                    className="block px-4 py-2.5 text-sm text-gray-700 hover:text-primary hover:bg-primary/5 transition-colors"
+                  >
+                    {industry.name}
+                  </Link>
+                ))}
+              </div>
+            </div>
             <Link
               href="/case-studies"
               className="relative px-4 py-2 text-sm font-medium text-gray-700 hover:text-primary transition-colors rounded-lg hover:bg-primary/5"
@@ -160,7 +205,7 @@ export default function Header() {
         <div
           className={cn(
             'md:hidden overflow-hidden transition-all duration-300 ease-out',
-            isMobileMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+            isMobileMenuOpen ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0'
           )}
         >
           <nav className="flex flex-col py-4 border-t border-gray-100 bg-white/95 backdrop-blur-xl rounded-b-2xl">
@@ -182,6 +227,22 @@ export default function Header() {
             >
               Pricing
             </button>
+            {/* Industries Section */}
+            <div className="px-4 py-2 mx-2">
+              <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Industries</p>
+              <div className="space-y-1 pl-2">
+                {industries.map((industry) => (
+                  <Link
+                    key={industry.href}
+                    href={industry.href}
+                    className="block text-gray-700 hover:text-primary hover:bg-primary/5 transition-colors px-3 py-2 rounded-lg text-sm"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    {industry.name}
+                  </Link>
+                ))}
+              </div>
+            </div>
             <Link
               href="/case-studies"
               className="text-gray-700 hover:text-primary hover:bg-primary/5 transition-colors px-4 py-3 rounded-lg mx-2"

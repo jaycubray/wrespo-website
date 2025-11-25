@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import { ReactNode, CSSProperties } from 'react'
 import { cn } from '@/lib/utils'
 
 interface CardProps {
@@ -7,6 +7,7 @@ interface CardProps {
   hover?: boolean
   gradient?: boolean
   glass?: boolean
+  style?: CSSProperties
 }
 
 export default function Card({
@@ -14,10 +15,12 @@ export default function Card({
   className,
   hover = false,
   gradient = false,
-  glass = false
+  glass = false,
+  style
 }: CardProps) {
   return (
     <div
+      style={style}
       className={cn(
         'bg-white rounded-2xl p-6',
         'shadow-[0_4px_20px_rgba(0,0,0,0.06)]',
