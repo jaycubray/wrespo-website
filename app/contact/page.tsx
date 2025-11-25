@@ -19,11 +19,20 @@ interface TimeSlot {
   endTime: number
 }
 
-interface AvailabilityData {
-  availableSlots?: {
-    [duration: string]: TimeSlot[]
+interface HubSpotAvailability {
+  startMillisUtc: number
+  endMillisUtc: number
+}
+
+interface AvailabilityResponse {
+  linkAvailability?: {
+    linkAvailabilityByDuration?: {
+      [duration: string]: {
+        meetingDurationMillis: number
+        availabilities: HubSpotAvailability[]
+      }
+    }
   }
-  busyTimes?: Array<{ start: number; end: number }>
 }
 
 interface MeetingLink {
@@ -34,6 +43,9 @@ interface MeetingLink {
   isDefault?: boolean
 }
 
+// Fixed 15 minute consultation duration
+const MEETING_DURATION = 900000 // 15 min in milliseconds
+
 export default function ContactPage() {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(true)
@@ -43,12 +55,11 @@ export default function ContactPage() {
   // Meeting data
   const [meetingLinks, setMeetingLinks] = useState<MeetingLink[]>([])
   const [selectedMeeting, setSelectedMeeting] = useState<MeetingLink | null>(null)
-  const [availability, setAvailability] = useState<AvailabilityData | null>(null)
+  const [availability, setAvailability] = useState<AvailabilityResponse | null>(null)
 
   // Selection state
   const [selectedDate, setSelectedDate] = useState<Date | null>(null)
   const [selectedSlot, setSelectedSlot] = useState<TimeSlot | null>(null)
-  const [selectedDuration, setSelectedDuration] = useState<number>(1800000) // 30 min default
   const [currentMonth, setCurrentMonth] = useState(new Date())
 
   // Timezone
@@ -116,12 +127,20 @@ export default function ContactPage() {
     return (date.getFullYear() - now.getFullYear()) * 12 + (date.getMonth() - now.getMonth())
   }
 
+  // Get available slots from HubSpot response
+  function getAvailableSlots(): TimeSlot[] {
+    const durationData = availability?.linkAvailability?.linkAvailabilityByDuration?.[String(MEETING_DURATION)]
+    if (!durationData?.availabilities) return []
+
+    return durationData.availabilities.map(slot => ({
+      startTime: slot.startMillisUtc,
+      endTime: slot.endMillisUtc,
+    }))
+  }
+
   // Get available slots for selected date
   function getSlotsForDate(date: Date): TimeSlot[] {
-    if (!availability?.availableSlots) return []
-
-    const durationKey = String(selectedDuration)
-    const slots = availability.availableSlots[durationKey] || []
+    const slots = getAvailableSlots()
 
     return slots.filter(slot => {
       const slotDate = new Date(slot.startTime)
@@ -136,10 +155,7 @@ export default function ContactPage() {
   // Get dates that have available slots
   function getAvailableDates(): Set<string> {
     const dates = new Set<string>()
-    if (!availability?.availableSlots) return dates
-
-    const durationKey = String(selectedDuration)
-    const slots = availability.availableSlots[durationKey] || []
+    const slots = getAvailableSlots()
 
     slots.forEach(slot => {
       const date = new Date(slot.startTime)
@@ -201,7 +217,7 @@ export default function ContactPage() {
           email: data.email,
           phone: data.phone,
           startTime: selectedSlot.startTime,
-          duration: selectedDuration,
+          duration: MEETING_DURATION,
           timezone,
           formFields: {
             company: data.company,
@@ -265,46 +281,15 @@ export default function ContactPage() {
             <div className="grid lg:grid-cols-3 gap-8">
               {/* Calendar Section */}
               <div className="lg:col-span-2 bg-white rounded-2xl shadow-xl p-6 md:p-8">
-                {/* Duration Selection */}
-                <div className="mb-6">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Meeting Duration
-                  </label>
-                  <div className="flex gap-2">
-                    <button
-                      type="button"
-                      onClick={() => setSelectedDuration(900000)}
-                      className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                        selectedDuration === 900000
-                          ? 'bg-primary text-white'
-                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                    >
-                      15 min
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setSelectedDuration(1800000)}
-                      className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                        selectedDuration === 1800000
-                          ? 'bg-primary text-white'
-                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                    >
-                      30 min
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setSelectedDuration(3600000)}
-                      className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                        selectedDuration === 3600000
-                          ? 'bg-primary text-white'
-                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                    >
-                      60 min
-                    </button>
+                {/* Meeting Info */}
+                <div className="mb-6 p-4 bg-primary/5 rounded-lg border border-primary/20">
+                  <div className="flex items-center gap-2">
+                    <svg className="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span className="font-semibold text-dark">15 Minute Free Consultation</span>
                   </div>
+                  <p className="text-sm text-gray-600 mt-1">Quick call to discuss your needs and see if we're a good fit.</p>
                 </div>
 
                 {/* Calendar Header */}
@@ -312,7 +297,7 @@ export default function ContactPage() {
                   <button
                     type="button"
                     onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1))}
-                    className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                    className="p-2 hover:bg-gray-100 rounded-lg transition-colors disabled:opacity-50"
                     disabled={getMonthOffset(currentMonth) <= 0}
                   >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -403,7 +388,7 @@ export default function ContactPage() {
                 )}
 
                 <p className="text-sm text-gray-500 mt-6 text-center">
-                  Times shown in {timezone.replace('_', ' ')}
+                  Times shown in {timezone.replace(/_/g, ' ')}
                 </p>
               </div>
 
