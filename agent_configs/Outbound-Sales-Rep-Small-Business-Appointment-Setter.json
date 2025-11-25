@@ -1,0 +1,260 @@
+{
+    "name": "Outbound Sales Rep - Small Business Appointment Setter",
+    "conversation_config": {
+        "asr": {
+            "quality": "high",
+            "provider": "elevenlabs",
+            "user_input_audio_format": "ulaw_8000",
+            "keywords": [
+                "appointment",
+                "schedule",
+                "calendar",
+                "automation",
+                "interested",
+                "not interested",
+                "call back",
+                "busy",
+                "email",
+                "discovery call",
+                "consultation"
+            ]
+        },
+        "turn": {
+            "turn_timeout": 7,
+            "initial_wait_time": null,
+            "silence_end_call_timeout": -1,
+            "soft_timeout_config": {
+                "timeout_seconds": -1,
+                "message": "Hhmmmm...yeah give me a second..."
+            },
+            "mode": "turn",
+            "turn_eagerness": "normal"
+        },
+        "tts": {
+            "model_id": "eleven_turbo_v2",
+            "voice_id": "pNInz6obpgDQGcFmaJgB",
+            "supported_voices": [],
+            "suggested_audio_tags": [],
+            "agent_output_audio_format": "pcm_16000",
+            "optimize_streaming_latency": 3,
+            "stability": 0.6,
+            "speed": 1,
+            "similarity_boost": 0.75,
+            "text_normalisation_type": "system_prompt",
+            "pronunciation_dictionary_locators": []
+        },
+        "conversation": {
+            "text_only": false,
+            "max_duration_seconds": 480,
+            "client_events": [
+                "audio",
+                "interruption",
+                "agent_response",
+                "user_transcript",
+                "agent_response_correction",
+                "agent_tool_response"
+            ]
+        },
+        "language_presets": {},
+        "vad": {
+            "background_voice_detection": false
+        },
+        "agent": {
+            "first_message": "Hi, this is Alex calling from Automated Business Solutions. May I speak with [prospect_name]?",
+            "language": "en",
+            "dynamic_variables": {
+                "dynamic_variable_placeholders": {}
+            },
+            "disable_first_message_interruptions": false,
+            "prompt": {
+                "prompt": "You are Alex, a professional sales representative for Automated Business Solutions, a company that helps small businesses streamline their operations through automation and AI.\n\nYour role is to conduct warm, professional outbound sales calls to small business owners to schedule 30-minute discovery consultations. You are calling business owners who have shown interest in learning about automation solutions for their business.\n\nKEY OBJECTIVES:\n1. Build rapport quickly and establish credibility\n2. Identify if the business owner is available to talk (if not, offer to call back at a better time)\n3. Briefly introduce the value proposition (save time, reduce costs, increase efficiency)\n4. Qualify the prospect (business size, current pain points, interest level)\n5. Schedule a 30-minute discovery call with one of our senior consultants\n6. Capture the appointment in our calendar system\n\nCALL STRUCTURE:\n1. INTRODUCTION (10-15 seconds)\n   - Greet warmly and state your name and company\n   - Confirm you're speaking with the right person\n   - Check if they have 2-3 minutes to talk\n\n2. PURPOSE (20-30 seconds)\n   - Remind them of their inquiry/interest\n   - Share brief value proposition focused on their industry\n   - Ask 1-2 qualifying questions about their current challenges\n\n3. QUALIFICATION (30-45 seconds)\n   - Listen actively to their pain points\n   - Acknowledge their challenges with empathy\n   - Determine if they're a good fit for our solutions\n\n4. APPOINTMENT SETTING (30-45 seconds)\n   - Suggest scheduling a discovery call with a specialist\n   - Offer 2-3 specific time slots\n   - Confirm appointment details and contact information\n   - Set expectations for the discovery call\n\n5. CLOSING (10-15 seconds)\n   - Thank them for their time\n   - Confirm they'll receive calendar invite and reminder\n   - End warmly\n\nCOMMUNICATION STYLE:\n- Professional yet conversational and warm\n- Speak clearly at a moderate pace\n- Use the prospect's name naturally throughout the conversation\n- Be respectful of their time\n- Listen more than you talk (60/40 rule)\n- Handle objections gracefully and don't be pushy\n- If they're not interested, thank them politely and end the call professionally\n\nOBJECTION HANDLING:\n- \"I'm busy right now\" → Offer to schedule a callback at their convenience\n- \"Not interested\" → Ask if you can briefly share what sets us apart, if still no, thank them and end call\n- \"Send me information\" → Acknowledge, but explain the discovery call is customized to their needs, offer specific time slots\n- \"How much does it cost?\" → Explain pricing varies based on needs, discovery call will provide customized quote\n- \"I need to think about it\" → Validate their need to consider, ask what specific concerns they have, address them briefly\n\nQUALIFYING QUESTIONS:\n- How many employees do you currently have?\n- What are your biggest operational challenges right now?\n- Are you currently using any automation tools?\n- What processes take up most of your team's time?\n- What would improved efficiency mean for your business?\n\nCALL DISPOSITION TRACKING:\nAfter each call, use the log_call_disposition tool to record:\n- Appointment scheduled (with date/time)\n- Callback requested (with preferred time)\n- Not interested\n- Wrong number / Invalid contact\n- Voicemail left\n- Needs more information (email sent)\n\nREMEMBER:\n- You are NOT booking the main service, only a discovery consultation\n- Keep the call between 2-4 minutes total\n- Be genuine, helpful, and consultative rather than aggressive\n- Your success metric is scheduling qualified appointments, not closing sales on this call\n- Always end calls professionally regardless of outcome\n- Use the calendar_booking and crm_logging tools to capture all relevant information",
+                "llm": "gemini-2.5-flash",
+                "temperature": 0,
+                "max_tokens": -1,
+                "tool_ids": [],
+                "built_in_tools": {},
+                "mcp_server_ids": [],
+                "native_mcp_server_ids": [],
+                "knowledge_base": [],
+                "ignore_default_personality": false,
+                "rag": {
+                    "enabled": false,
+                    "embedding_model": "e5_mistral_7b_instruct",
+                    "max_vector_distance": 0.6,
+                    "max_documents_length": 50000,
+                    "max_retrieved_rag_chunks_count": 20
+                },
+                "backup_llm_config": {
+                    "preference": "default"
+                },
+                "tools": []
+            }
+        }
+    },
+    "platform_settings": {
+        "evaluation": {
+            "criteria": []
+        },
+        "widget": {
+            "variant": "full",
+            "placement": "bottom-right",
+            "expandable": "never",
+            "avatar": {
+                "type": "orb",
+                "color1": "#2792dc",
+                "color2": "#9ce6e6"
+            },
+            "feedback_mode": "none",
+            "end_feedback": null,
+            "bg_color": "#ffffff",
+            "text_color": "#000000",
+            "btn_color": "#000000",
+            "btn_text_color": "#ffffff",
+            "border_color": "#e1e1e1",
+            "focus_color": "#000000",
+            "shareable_page_show_terms": true,
+            "show_avatar_when_collapsed": false,
+            "disable_banner": false,
+            "mic_muting_enabled": false,
+            "transcript_enabled": false,
+            "text_input_enabled": true,
+            "default_expanded": false,
+            "always_expanded": false,
+            "text_contents": {},
+            "styles": {},
+            "language_selector": false,
+            "supports_text_only": true,
+            "language_presets": {}
+        },
+        "data_collection": {},
+        "overrides": {
+            "conversation_config_override": {
+                "turn": {
+                    "soft_timeout_config": {
+                        "message": false
+                    }
+                },
+                "tts": {
+                    "voice_id": false,
+                    "stability": false,
+                    "speed": false,
+                    "similarity_boost": false
+                },
+                "conversation": {
+                    "text_only": true
+                },
+                "agent": {
+                    "first_message": false,
+                    "language": false,
+                    "prompt": {
+                        "prompt": false,
+                        "llm": false,
+                        "native_mcp_server_ids": false
+                    }
+                }
+            },
+            "custom_llm_extra_body": false,
+            "enable_conversation_initiation_client_data_from_webhook": false
+        },
+        "workspace_overrides": {
+            "webhooks": {
+                "events": [
+                    "transcript"
+                ]
+            }
+        },
+        "testing": {
+            "attached_tests": [],
+            "referenced_tests_ids": []
+        },
+        "archived": false,
+        "guardrails": {
+            "version": "1",
+            "moderation": {
+                "config": {
+                    "sexual": {
+                        "is_enabled": false,
+                        "threshold": 0.3
+                    },
+                    "violence": {
+                        "is_enabled": false,
+                        "threshold": 0.3
+                    },
+                    "violence_graphic": {
+                        "is_enabled": false,
+                        "threshold": 0.3
+                    },
+                    "harassment": {
+                        "is_enabled": false,
+                        "threshold": 0.3
+                    },
+                    "harassment_threatening": {
+                        "is_enabled": false,
+                        "threshold": 0.3
+                    },
+                    "hate": {
+                        "is_enabled": false,
+                        "threshold": 0.3
+                    },
+                    "hate_threatening": {
+                        "is_enabled": false,
+                        "threshold": 0.3
+                    },
+                    "self_harm_instructions": {
+                        "is_enabled": false,
+                        "threshold": 0.3
+                    },
+                    "self_harm": {
+                        "is_enabled": false,
+                        "threshold": 0.3
+                    },
+                    "self_harm_intent": {
+                        "is_enabled": false,
+                        "threshold": 0.3
+                    },
+                    "sexual_minors": {
+                        "is_enabled": false,
+                        "threshold": 0.3
+                    }
+                }
+            }
+        },
+        "auth": {
+            "enable_auth": false,
+            "allowlist": []
+        },
+        "call_limits": {
+            "agent_concurrency_limit": -1,
+            "daily_limit": 100000,
+            "bursting_enabled": true
+        },
+        "ban": null,
+        "privacy": {
+            "record_voice": true,
+            "retention_days": -1,
+            "delete_transcript_and_pii": false,
+            "delete_audio": false,
+            "apply_to_existing_conversations": false,
+            "zero_retention_mode": false
+        },
+        "safety": {
+            "is_blocked_ivc": false,
+            "is_blocked_non_ivc": false,
+            "ignore_safety_evaluation": false
+        }
+    },
+    "tags": [],
+    "workflow": {
+        "edges": {},
+        "nodes": {
+            "start_node": {
+                "type": "start",
+                "position": {
+                    "x": 0,
+                    "y": 0
+                },
+                "edge_order": []
+            }
+        }
+    }
+}

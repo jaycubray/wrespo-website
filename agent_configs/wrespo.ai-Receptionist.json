@@ -1,0 +1,449 @@
+{
+    "name": "wrespo.ai Receptionist",
+    "conversation_config": {
+        "asr": {
+            "quality": "high",
+            "provider": "elevenlabs",
+            "user_input_audio_format": "pcm_16000",
+            "keywords": []
+        },
+        "turn": {
+            "turn_timeout": 7,
+            "initial_wait_time": null,
+            "silence_end_call_timeout": -1,
+            "soft_timeout_config": {
+                "timeout_seconds": -1,
+                "message": "Hhmmmm...yeah give me a second..."
+            },
+            "mode": "turn",
+            "turn_eagerness": "normal"
+        },
+        "tts": {
+            "model_id": "eleven_turbo_v2",
+            "voice_id": "21m00Tcm4TlvDq8ikWAM",
+            "supported_voices": [],
+            "suggested_audio_tags": [],
+            "agent_output_audio_format": "pcm_16000",
+            "optimize_streaming_latency": 3,
+            "stability": 0.5,
+            "speed": 1,
+            "similarity_boost": 0.8,
+            "text_normalisation_type": "system_prompt",
+            "pronunciation_dictionary_locators": []
+        },
+        "conversation": {
+            "text_only": false,
+            "max_duration_seconds": 600,
+            "client_events": [
+                "audio",
+                "interruption",
+                "user_transcript",
+                "agent_response",
+                "agent_response_correction"
+            ]
+        },
+        "language_presets": {},
+        "vad": {
+            "background_voice_detection": false
+        },
+        "agent": {
+            "first_message": "Thank you for calling wrespo.ai. This call may be recorded for quality and training purposes. How can I help you today?",
+            "language": "en",
+            "dynamic_variables": {
+                "dynamic_variable_placeholders": {}
+            },
+            "disable_first_message_interruptions": false,
+            "prompt": {
+                "prompt": "You are the receptionist for wrespo.ai, a professional business services company. You're warm, professional, and efficient. You help customers with appointments, billing questions, and connect them with Jacob when needed.\n\nYOUR PERSONALITY:\nYou're professional but friendly. You speak clearly and naturally. You're helpful and solution-oriented. You ask questions one at a time and have natural conversations.\n\nBUSINESS INFORMATION:\n- Company: wrespo.ai\n- Main phone: (952) 314-3814\n- Jacob's line: (612) 324-4646\n- Business hours: Monday-Friday, 8am-6pm Central Time\n- You operate 24/7 to help customers\n\n---\n\nCALL FLOW - VERY IMPORTANT:\n\nWHEN A CALL STARTS:\n1. Use the hubspot_operations tool with operation \"lookup_customer\" and the caller's phone number\n2. The tool will tell you if this is a new or existing customer and provide their greeting\n3. Use this information to personalize your greeting\n\nFor existing customers:\n\"Hi [Name]! How can I help you today?\"\n\nFor new customers:\n\"I don't believe we've worked together before. What's your name?\"\n\nIf the lookup fails or you can't identify them:\n\"I want to make sure I pull up the right account. Can I get your name and the last 4 digits of your phone number?\"\n\n---\n\nHANDLING APPOINTMENTS:\n\nFor checking availability:\n1. Ask: \"What date were you thinking?\"\n2. Use appointment_scheduler tool with operation \"check_availability\" and the date\n3. The tool will tell you if the date is available and suggest time slots\n4. Relay this information naturally\n\nFor booking an appointment:\n1. Make sure you have: name, phone, date, and time\n2. Ask for email if they want to provide it (optional)\n3. Use appointment_scheduler tool with operation \"book_appointment\"\n4. Confirm the booking and confirmation number\n\nFor rescheduling:\n1. You need their contact_id (from the initial lookup)\n2. Ask for new date and time\n3. Use appointment_scheduler tool with operation \"reschedule_appointment\"\n\nFor cancelling:\n1. You need their contact_id (from the initial lookup)\n2. Ask if they want to reschedule instead\n3. Use appointment_scheduler tool with operation \"cancel_appointment\"\n\n---\n\nHANDLING BILLING QUESTIONS:\n\nFor billing information:\n1. You need their contact_id (from the initial lookup)\n2. Use hubspot_operations tool with operation \"get_billing_info\"\n3. The tool will return their package, billing cycle, amount, and next billing date\n4. Share this information naturally: \"Let me check that for you... You're on our [package] plan, billed [cycle] at $[amount]. Your next billing date is [date].\"\n\nFor updating payment information:\n1. Let them know: \"For security reasons, I'll need to transfer you to Jacob to update your payment information. He can help you with that securely.\"\n2. Transfer the call\n\nFor changing payment dates:\n1. Let them know: \"I can help you with that. Let me transfer you to Jacob who handles our billing arrangements.\"\n2. Transfer the call\n\n---\n\nESCALATION RULES - CRITICAL:\n\nALWAYS CHECK PACKAGE TIER BEFORE ESCALATING:\n1. When you look up a customer, note their package_tier\n2. ONLY customers on \"Enterprise Growth\" package qualify for 24/7 human support\n\nFor Enterprise Growth customers:\n- They can request to speak with someone anytime\n- Always honor their request immediately\n- Say: \"Of course! Let me connect you with Jacob right away. He'll be happy to help you.\"\n\nFor other customers:\n- During business hours (M-F 8am-6pm CT): Can transfer to Jacob\n- Outside business hours: \"Jacob's not available right now, but I can help you with [appointments/billing questions]. Or I can take a message and have him call you first thing when he's back.\"\n\nOther escalation reasons (any customer):\n- Payment information updates (security)\n- Complex billing arrangement changes\n- Technical issues you can't resolve\n- If customer is frustrated or specifically requests human help during business hours\n\n---\n\nLOGGING ACTIVITIES:\n\nAfter significant interactions, log them:\n1. Use hubspot_operations tool with operation \"log_activity\"\n2. Provide contact_id, activity_type, and brief summary\n\nActivity types:\n- \"Support Call\" - General questions answered\n- \"Appointment Scheduled\" - (automatically logged by appointment tool)\n- \"Appointment Rescheduled\" - (automatically logged by appointment tool)\n- \"Appointment Cancelled\" - (automatically logged by appointment tool)\n- \"Billing Inquiry\" - Asked about billing\n- \"Transferred to Jacob\" - Call was escalated\n\nOnly log meaningful interactions, not simple greetings.\n\n---\n\nTRANSFERRING CALLS:\n\nWhen transferring to Jacob:\n1. Explain why: \"Let me connect you with Jacob. He can help you with [reason].\"\n2. Use the transfer_to_number tool\n3. The system will do a conference transfer, so you can brief Jacob\n4. When Jacob joins, say: \"Hi Jacob, I have [customer name] on the line. They need help with [brief summary].\"\n\n---\n\nERROR HANDLING:\n\nIf a tool returns an error:\n- Stay calm and professional\n- Explain: \"I'm having a little trouble with our system right now.\"\n- Offer alternatives: \"Let me try a different way\" OR \"Would you like me to connect you with Jacob?\"\n- Don't say technical error messages to customers\n\nIf you can't help:\n- Be honest: \"You know what, I want to make sure you get the right help. Let me connect you with Jacob.\"\n- Transfer the call\n\n---\n\nTOOLS AVAILABLE:\n\n1. hubspot_operations - For customer lookup, billing info, activity logging\n2. appointment_scheduler - For checking availability, booking, rescheduling, cancelling\n3. transfer_to_number - For transferring to Jacob at (612) 324-4646\n4. end_call - For ending the call when complete\n\n---\n\nCONVERSATION GUIDELINES:\n\n✓ Always start by looking up the customer\n✓ Use their name once you know it\n✓ Ask ONE question at a time\n✓ Speak naturally - use contractions, vary your phrasing\n✓ Confirm details before booking appointments\n✓ Always provide confirmation numbers for bookings\n✓ Check package tier before escalating\n✓ Log important activities\n✓ Be solution-oriented - offer options\n✓ End calls with: \"Is there anything else I can help you with?\" and \"Thanks for calling wrespo.ai!\"\n\nTONE: Professional, warm, efficient. You work for a quality business. You care about helping customers. You're competent and you know when to get help.\n\nREMEMBER: Your job is to make customers feel heard and helped. Whether that's booking an appointment, answering a billing question, or connecting them with Jacob - you handle it smoothly and professionally.",
+                "llm": "gemini-2.5-flash",
+                "thinking_budget": 0,
+                "temperature": 0.5,
+                "max_tokens": -1,
+                "tool_ids": [],
+                "built_in_tools": {
+                    "end_call": {
+                        "type": "system",
+                        "name": "end_call",
+                        "description": "",
+                        "response_timeout_secs": 20,
+                        "disable_interruptions": false,
+                        "force_pre_tool_speech": false,
+                        "assignments": [],
+                        "tool_call_sound": null,
+                        "tool_call_sound_behavior": "auto",
+                        "params": {
+                            "system_tool_type": "end_call"
+                        }
+                    },
+                    "language_detection": {
+                        "type": "system",
+                        "name": "language_detection",
+                        "description": "",
+                        "response_timeout_secs": 20,
+                        "disable_interruptions": false,
+                        "force_pre_tool_speech": false,
+                        "assignments": [],
+                        "tool_call_sound": null,
+                        "tool_call_sound_behavior": "auto",
+                        "params": {
+                            "system_tool_type": "language_detection"
+                        }
+                    }
+                },
+                "mcp_server_ids": [],
+                "native_mcp_server_ids": [],
+                "knowledge_base": [],
+                "ignore_default_personality": false,
+                "rag": {
+                    "enabled": false,
+                    "embedding_model": "e5_mistral_7b_instruct",
+                    "max_vector_distance": 0.6,
+                    "max_documents_length": 50000,
+                    "max_retrieved_rag_chunks_count": 20
+                },
+                "backup_llm_config": {
+                    "preference": "default"
+                },
+                "tools": [
+                    {
+                        "type": "system",
+                        "name": "end_call",
+                        "description": "",
+                        "response_timeout_secs": 20,
+                        "disable_interruptions": false,
+                        "force_pre_tool_speech": false,
+                        "assignments": [],
+                        "tool_call_sound": null,
+                        "tool_call_sound_behavior": "auto",
+                        "params": {
+                            "system_tool_type": "end_call"
+                        }
+                    },
+                    {
+                        "type": "system",
+                        "name": "language_detection",
+                        "description": "",
+                        "response_timeout_secs": 20,
+                        "disable_interruptions": false,
+                        "force_pre_tool_speech": false,
+                        "assignments": [],
+                        "tool_call_sound": null,
+                        "tool_call_sound_behavior": "auto",
+                        "params": {
+                            "system_tool_type": "language_detection"
+                        }
+                    },
+                    {
+                        "type": "webhook",
+                        "name": "appointment_scheduler",
+                        "description": "Schedule, check availability, or book appointments on HubSpot calendar. Use this tool to check available times for a date, get the next available appointment slots, or book an appointment for a customer. The tool returns natural language responses ready to speak to the customer.",
+                        "response_timeout_secs": 30,
+                        "disable_interruptions": false,
+                        "force_pre_tool_speech": true,
+                        "assignments": [],
+                        "tool_call_sound": null,
+                        "tool_call_sound_behavior": "auto",
+                        "params": {
+                            "url": "https://wrespo.ai/api/agent-scheduler",
+                            "method": "POST",
+                            "request_body_definition": {
+                                "properties": {
+                                    "operation": {
+                                        "type": "string",
+                                        "description": "The scheduling operation to perform: 'check_availability' to check times for a specific date, 'get_next_available' to find the next open slots, or 'book_appointment' to book an appointment",
+                                        "enum": ["check_availability", "book_appointment", "get_next_available"]
+                                    },
+                                    "date": {
+                                        "type": "string",
+                                        "description": "The date to check availability for. Can be natural language like 'tomorrow', 'next Monday', or ISO date format. Required for check_availability operation."
+                                    },
+                                    "firstName": {
+                                        "type": "string",
+                                        "description": "Customer's first name. Required for book_appointment."
+                                    },
+                                    "lastName": {
+                                        "type": "string",
+                                        "description": "Customer's last name. Required for book_appointment."
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "description": "Customer's email address. Required for book_appointment - the calendar invite will be sent here."
+                                    },
+                                    "phone": {
+                                        "type": "string",
+                                        "description": "Customer's phone number. Optional but helpful for follow-up."
+                                    },
+                                    "startTime": {
+                                        "type": "number",
+                                        "description": "Unix timestamp in milliseconds for the appointment start time. Required for book_appointment - use a value from the availableSlots returned by check_availability."
+                                    },
+                                    "duration": {
+                                        "type": "number",
+                                        "description": "Meeting duration in milliseconds. Default is 1800000 (30 minutes). Use 900000 for 15 min, 3600000 for 60 min."
+                                    },
+                                    "timezone": {
+                                        "type": "string",
+                                        "description": "Timezone for the appointment. Default is America/Chicago."
+                                    }
+                                },
+                                "required": ["operation"]
+                            }
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    "platform_settings": {
+        "evaluation": {
+            "criteria": []
+        },
+        "widget": {
+            "variant": "full",
+            "placement": "bottom-right",
+            "expandable": "never",
+            "avatar": {
+                "type": "orb",
+                "color1": "#6DB035",
+                "color2": "#F5CABB"
+            },
+            "feedback_mode": "none",
+            "end_feedback": null,
+            "bg_color": "#ffffff",
+            "text_color": "#000000",
+            "btn_color": "#000000",
+            "btn_text_color": "#ffffff",
+            "border_color": "#e1e1e1",
+            "focus_color": "#000000",
+            "shareable_page_show_terms": true,
+            "terms_text": "#### Terms and conditions\n\nBy clicking \"Agree,\" and each time I interact with this AI agent, I consent to the recording, storage, and sharing of my communications with third-party service providers, and as described in the Privacy Policy.\nIf you do not wish to have your conversations recorded, please refrain from using this service.",
+            "terms_html": "<h4>Terms and conditions</h4>\n<p>By clicking &quot;Agree,&quot; and each time I interact with this AI agent, I consent to the recording, storage, and sharing of my communications with third-party service providers, and as described in the Privacy Policy.\nIf you do not wish to have your conversations recorded, please refrain from using this service.</p>\n",
+            "show_avatar_when_collapsed": false,
+            "disable_banner": false,
+            "mic_muting_enabled": false,
+            "transcript_enabled": false,
+            "text_input_enabled": true,
+            "default_expanded": false,
+            "always_expanded": false,
+            "text_contents": {},
+            "styles": {},
+            "language_selector": false,
+            "supports_text_only": true,
+            "language_presets": {}
+        },
+        "data_collection": {},
+        "overrides": {
+            "conversation_config_override": {
+                "turn": {
+                    "soft_timeout_config": {
+                        "message": false
+                    }
+                },
+                "tts": {
+                    "voice_id": true,
+                    "stability": false,
+                    "speed": true,
+                    "similarity_boost": false
+                },
+                "conversation": {
+                    "text_only": false
+                },
+                "agent": {
+                    "first_message": true,
+                    "language": true,
+                    "prompt": {
+                        "prompt": true,
+                        "llm": true,
+                        "native_mcp_server_ids": false
+                    }
+                }
+            },
+            "custom_llm_extra_body": false,
+            "enable_conversation_initiation_client_data_from_webhook": true
+        },
+        "workspace_overrides": {
+            "webhooks": {
+                "events": [
+                    "transcript"
+                ],
+                "send_audio": false
+            }
+        },
+        "testing": {
+            "attached_tests": [],
+            "referenced_tests_ids": []
+        },
+        "archived": false,
+        "guardrails": {
+            "version": "1",
+            "moderation": {
+                "config": {
+                    "sexual": {
+                        "is_enabled": false,
+                        "threshold": 0.3
+                    },
+                    "violence": {
+                        "is_enabled": false,
+                        "threshold": 0.3
+                    },
+                    "violence_graphic": {
+                        "is_enabled": false,
+                        "threshold": 0.3
+                    },
+                    "harassment": {
+                        "is_enabled": false,
+                        "threshold": 0.3
+                    },
+                    "harassment_threatening": {
+                        "is_enabled": false,
+                        "threshold": 0.3
+                    },
+                    "hate": {
+                        "is_enabled": false,
+                        "threshold": 0.3
+                    },
+                    "hate_threatening": {
+                        "is_enabled": false,
+                        "threshold": 0.3
+                    },
+                    "self_harm_instructions": {
+                        "is_enabled": false,
+                        "threshold": 0.3
+                    },
+                    "self_harm": {
+                        "is_enabled": false,
+                        "threshold": 0.3
+                    },
+                    "self_harm_intent": {
+                        "is_enabled": false,
+                        "threshold": 0.3
+                    },
+                    "sexual_minors": {
+                        "is_enabled": false,
+                        "threshold": 0.3
+                    }
+                }
+            }
+        },
+        "auth": {
+            "enable_auth": false,
+            "allowlist": []
+        },
+        "call_limits": {
+            "agent_concurrency_limit": -1,
+            "daily_limit": 100000,
+            "bursting_enabled": false
+        },
+        "ban": null,
+        "privacy": {
+            "record_voice": true,
+            "retention_days": -1,
+            "delete_transcript_and_pii": false,
+            "delete_audio": false,
+            "apply_to_existing_conversations": false,
+            "zero_retention_mode": false
+        },
+        "safety": {
+            "is_blocked_ivc": false,
+            "is_blocked_non_ivc": false,
+            "ignore_safety_evaluation": false
+        }
+    },
+    "tags": [],
+    "workflow": {
+        "edges": {
+            "edge_6901kaw9evqhe7aarw5d1t1d9j23": {
+                "source": "start_node",
+                "target": "node_5401kaw9evqgfva89mbk67jy57c7",
+                "forward_condition": {
+                    "label": null,
+                    "type": "unconditional"
+                },
+                "backward_condition": null
+            },
+            "edge_0201kaw9evqkef6sq58kwtpdqje4": {
+                "source": "node_5401kaw9evqgfva89mbk67jy57c7",
+                "target": "node_0501kaw9evqjfyzbzzkdehnp5rq8",
+                "forward_condition": {
+                    "label": null,
+                    "type": "llm",
+                    "condition": "Customer needs payment update, billing arrangement change, or is Enterprise Growth requesting human support, or other escalation is needed"
+                },
+                "backward_condition": null
+            },
+            "edge_01kaw9f914fq8bvn402dvqa514": {
+                "source": "node_5401kaw9evqgfva89mbk67jy57c7",
+                "target": "node_01kaw9f90tfq8bvn3s3y3eytfd",
+                "forward_condition": {
+                    "label": "Customer is interested in services",
+                    "type": "llm",
+                    "condition": "A new customer has questions about the services we offer, the next agent will schedule them for an appointment."
+                },
+                "backward_condition": null
+            }
+        },
+        "nodes": {
+            "start_node": {
+                "type": "start",
+                "position": {
+                    "x": 128,
+                    "y": 64
+                },
+                "edge_order": [
+                    "edge_6901kaw9evqhe7aarw5d1t1d9j23"
+                ]
+            },
+            "node_0501kaw9evqjfyzbzzkdehnp5rq8": {
+                "type": "phone_number",
+                "position": {
+                    "x": -130,
+                    "y": 492
+                },
+                "edge_order": [],
+                "transfer_destination": {
+                    "type": "phone",
+                    "phone_number": "6123244646"
+                },
+                "transfer_type": "conference"
+            },
+            "node_5401kaw9evqgfva89mbk67jy57c7": {
+                "conversation_config": {
+                    "turn": {
+                        "turn_eagerness": null
+                    },
+                    "tts": {},
+                    "agent": {
+                        "prompt": {
+                            "built_in_tools": {}
+                        }
+                    }
+                },
+                "additional_prompt": "Figure out what the user needs. Tell them one moment before you transfer them.",
+                "additional_knowledge_base": [],
+                "additional_tool_ids": [],
+                "type": "override_agent",
+                "position": {
+                    "x": 124,
+                    "y": 175
+                },
+                "edge_order": [
+                    "edge_0201kaw9evqkef6sq58kwtpdqje4",
+                    "edge_01kaw9f914fq8bvn402dvqa514"
+                ],
+                "label": "wrespo.ai Receptionist"
+            },
+            "node_01kaw9f90tfq8bvn3s3y3eytfd": {
+                "type": "standalone_agent",
+                "position": {
+                    "x": 603,
+                    "y": 496.5
+                },
+                "edge_order": [],
+                "agent_id": "agent_6301kasser8ge3g9705dxp48mraw",
+                "delay_ms": 0,
+                "transfer_message": null,
+                "enable_transferred_agent_first_message": false
+            }
+        }
+    }
+}

@@ -13,7 +13,8 @@ export default function ElevenLabsWidget() {
 
     // Create the widget element
     const widget = document.createElement('elevenlabs-convai')
-    widget.setAttribute('agent-id', 'agent_6301kasser8ge3g9705dxp48mraw')
+    // Using wrespo.ai Receptionist agent with HubSpot calendar scheduling
+    widget.setAttribute('agent-id', 'agent_9701kavrn9fhe5vrnqmyc6hm75ae')
     document.body.appendChild(widget)
 
     // Cleanup on unmount

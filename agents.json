@@ -1,0 +1,48 @@
+{
+    "agents": [
+        {
+            "config": "agent_configs/wrespo.ai-Receptionist.json",
+            "id": "agent_9701kavrn9fhe5vrnqmyc6hm75ae"
+        },
+        {
+            "config": "agent_configs/Prank-caller.json",
+            "id": "agent_5501kaszfth9e6ptcy218x3pqm10"
+        },
+        {
+            "config": "agent_configs/Outbound-Sales-Rep-Small-Business-Appointment-Setter.json",
+            "id": "agent_2101kaq0vsq1f559rmpcdhbwyefq"
+        },
+        {
+            "config": "agent_configs/Small-Business-Agent.json",
+            "id": "agent_9001kamx3fyneqhtn5b3ezkqzp5d"
+        },
+        {
+            "config": "agent_configs/Small-Business-Agent-1.json",
+            "id": "agent_9701kamx0edffbr9fh6jnyew5hhn"
+        },
+        {
+            "config": "agent_configs/Dan.json",
+            "id": "agent_7501kaffq6k8fp4vh9n18rrd50tt"
+        },
+        {
+            "config": "agent_configs/annoying-customer.json",
+            "id": "agent_7201k9t5f9esf1yb53e86xy1q615"
+        },
+        {
+            "config": "agent_configs/Ron.json",
+            "id": "agent_4901k9mjqxyneg0rfga9h2weg8h9"
+        },
+        {
+            "config": "agent_configs/Snow-Removal-Customer-Service.json",
+            "id": "agent_5101k9k1y9pgeq1bnaqzfjrrecc6"
+        },
+        {
+            "config": "agent_configs/New-agent.json",
+            "id": "agent_7401k9gva5f4exfbrskn8jc1hetd"
+        },
+        {
+            "config": "agent_configs/Support-agent.json",
+            "id": "agent_6701k9gsdrcce6nvrpbzpxftj8qv"
+        }
+    ]
+}

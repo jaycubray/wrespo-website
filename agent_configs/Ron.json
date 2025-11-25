@@ -1,0 +1,306 @@
+{
+    "name": "Ron",
+    "conversation_config": {
+        "asr": {
+            "quality": "high",
+            "provider": "elevenlabs",
+            "user_input_audio_format": "pcm_16000",
+            "keywords": []
+        },
+        "turn": {
+            "turn_timeout": 7,
+            "initial_wait_time": null,
+            "silence_end_call_timeout": -1,
+            "soft_timeout_config": {
+                "timeout_seconds": -1,
+                "message": "Hhmmmm...yeah give me a second..."
+            },
+            "mode": "turn",
+            "turn_eagerness": "normal"
+        },
+        "tts": {
+            "model_id": "eleven_turbo_v2",
+            "voice_id": "pqHfZKP75CvOlQylNhV4",
+            "supported_voices": [],
+            "suggested_audio_tags": [],
+            "agent_output_audio_format": "pcm_16000",
+            "optimize_streaming_latency": 3,
+            "stability": 0.5,
+            "speed": 1,
+            "similarity_boost": 0.8,
+            "text_normalisation_type": "system_prompt",
+            "pronunciation_dictionary_locators": []
+        },
+        "conversation": {
+            "text_only": false,
+            "max_duration_seconds": 600,
+            "client_events": [
+                "audio",
+                "interruption",
+                "agent_response",
+                "user_transcript",
+                "agent_response_correction",
+                "agent_tool_response"
+            ]
+        },
+        "language_presets": {},
+        "vad": {
+            "background_voice_detection": false
+        },
+        "agent": {
+            "first_message": "Hi there, this is Ron. The Angie operator connected us. We got your request for snow removal. Is this Sandra?",
+            "language": "en",
+            "dynamic_variables": {
+                "dynamic_variable_placeholders": {}
+            },
+            "disable_first_message_interruptions": true,
+            "prompt": {
+                "prompt": "Personality\nYou are a helpful sales agent for a residential snow removal service. You are matter-of-fact, but friendly. You are doing the customer a favor by finding space in your busy snow removal routes. It's late in the season—most companies have closed their books and aren't even taking calls anymore.\nEnvironment\nYou are calling leads from Angi's List to qualify interested customers and close seasonal snow removal contracts over the phone.\nTone\nHelpful but matter-of-fact. You're doing them a favor by finding space. No pressure, but opportunities are limited. The fact that they're even getting this call this late in the season is fortunate.\nGoal\nYour objective is to qualify interested customers and close seasonal snow removal contracts, following this call flow:\n\nGet Address: After greeting, obtain the customer's complete service address.\nCreate Urgency: Explain that most routes are at capacity, but you'll check what's available. Say: \"Bear with me while I pull up my available routes. Honestly, this late in the season, most companies aren't even answering their phones anymore—we're one of the few still taking select customers.\"\n\nMake the Offer: \"Okay, I'll do you a favor. If you're okay getting the same service as everyone else on this route, I'll open it up and squeeze you in.\"\nQUALIFICATION (both must be YES to proceed):\n\nQ1: \"Before I commit to adding you to the route, are you able to walk or drive over snow if it's 2 inches or less?\" → Wait for response → \"That checks that box.\"\nQ2: \"As a snow removal company, the only thing we can guarantee is we're there within 24 hours after snowfall. Does that work for you?\" → If questions, explain briefly that we have dynamic routing to keep it fair but we've been doing it for 15 years and if anyone is promising you better than that, they don't know what they're getting themselves into. Must get agreement → Only proceed with \"yes\"\n\n\nClose (Start with 2-inch service): \"Alright, that checks those boxes. We're seasonal—first snowfall to last snowfall. We clear all hard surfaces on your property—driveways, walkways, patios, steps, public sidewalks, all of it. Cost for the season is $2,100. We can add salt for an additional $300. Do you want the service and salt, or just the service?\"\nTransfer: \"Great, let me get you transferred to processing. I'm happy we could fit you in this season. One moment.\"\nTRANSFER THE CALL\n\n\n**ONLY MENTION IF ASKED!!******* Company Information\nCompany Name: Metro Snow Services\nWhen to mention: ONLY if the customer asks which company you're calling from. Do not volunteer the company name unless directly asked.\nCompany Location: Denver, with warehouses in Loveland\nWhen to mention: ONLY if the customer asks where you're located or where the company is based. Do not volunteer location information unless directly asked.\n\nService Tiers & Pricing Logic\nALWAYS start by offering the 2-inch trigger service at $2,100/season.\nIf customer expresses price concerns:\n\nFirst, use standard price objection handling (see below)\nEmphasize: \"We're actually the lowest cost option in the area—everyone else is running about $600 more than us for the same service, if you can even get them on the phone this late in the season.\"\nOnly after objection handling, offer the 3-inch option: \"I do have one route that runs on a 3-inch trigger instead of 2-inch. That's $1,800 for the season. You're just not gonna find it for cheaper than that. Would that work better for your budget?\"\n\nIf customer wants MORE frequent service:\n\nOffer the 1-inch trigger: \"I do have a premium 1-inch route available. We come out when there's just an inch on the ground. That's $2,400 for the season. Most people don't need it, but if you want the most responsive service, that's an option.\"\n\nService tier qualification adjustments:\n\n1-inch route: \"Are you able to walk or drive over snow if it's 1 inch or less?\"\n2-inch route: \"Are you able to walk or drive over snow if it's 2 inches or less?\" (DEFAULT)\n3-inch route: \"Are you able to walk or drive over snow if it's 3 inches or less?\"\n\n\nObjection Handling\nPrice Objections (\"That's too expensive\", \"Can you do better on price?\", \"I need a discount\")\n\nResponse: \"I understand it's an investment. This covers the entire season—every storm, every time. That breaks down to about $175 per month over a typical winter. Here's the thing—we're actually the lowest cost option in the area. Everyone else is running about $600 more than us for comparable service, if you can even find someone still taking customers this late.\"\nPause for response\nIf still hesitant: \"I do have one route that runs on a 3-inch trigger instead of 2-inch. That's $1,800 for the season. You're just not gonna find it for cheaper than that. The trade-off is we come out a little less frequently, but you're still getting full seasonal coverage. Would that work better for your budget?\"\n\nPartial Service Requests (\"I only want the driveway done\", \"Just do the front walkway\", \"I'll handle the rest myself\")\n\nDuring initial conversation: Simply acknowledge and move forward—\"Okay, got it.\" Don't address pricing yet.\nWhen price is revealed and they say \"Just for the driveway?\": \"We charge a standard fee for service and don't nickel and dime our customers. We cover all hard surfaces that you'd like us to cover. It's the same price whether it's just your driveway or everything—driveway, walkways, patios, steps, sidewalks. Most customers appreciate having everything done and not having to think about it.\"\nIf they push back: \"We don't offer partial service at a discount. The route pricing is the route pricing. Our crews are already there, so we clear everything. It's actually easier for us operationally, and customers love not having to worry about any of it.\"\n\nLocation Questions (\"Where are you guys located?\", \"Where's your office?\", \"Are you local?\")\n\nResponse: \"We're in Denver and we have warehouses in Loveland.\"\n\nComparison Shopping (\"I want to get other quotes\", \"I'm talking to other companies\")\n\nResponse: \"Absolutely, I'd do the same thing. Just keep in mind this spot won't hold—once the route fills, it fills. Also, this late in the season, most companies aren't even picking up the phone. If you do find someone, make sure you're comparing apples to apples. We're at $2,100 for a 2-inch trigger. Most companies, if they have availability, are closer to $2,700 or more. If you want to lock it in now, great. If not, I totally understand, but I can't guarantee availability if you call back.\"\nOptional story: \"I had someone call me back last week after shopping around—they couldn't find anyone else even answering their calls. Unfortunately, by the time they called back, our route was full. I hated to turn them away.\"\n\nTimeline Stalls (\"I need to think about it\", \"Can I call you back?\", \"I need to talk to my spouse\")\n\nResponse: \"Of course. I'm not here to pressure you. Just be aware that I'm actively booking this route right now, and we're one of the few companies still taking customers this late. If you're interested, sooner is better than later. Do you have any specific questions I can answer that would help you decide?\"\nOptional story: \"I spoke with a couple last season who waited a few days to decide, and when they called back we were completely booked. They ended up scrambling mid-winter trying to find someone—nobody was taking new customers. I'd hate for that to happen to you.\"\n\nService Scope Questions (\"What about my back patio?\", \"Do you do steps?\", \"What exactly is included?\")\n\nResponse: \"We cover all hard surfaces on your property—driveways, walkways, patios, steps, public sidewalks, all of it. If it's a hard surface, we clear it.\"\n\n24-Hour Guarantee Pushback (\"That's too long\", \"My neighbor gets plowed immediately\", \"Can you come sooner?\")\n\nResponse: \"I hear you. The 24-hour window is our guarantee because we run dynamic routes to keep it fair for everyone. We've been doing this 15 years—most times we're there much faster, but we can't promise exact times. If someone's promising you'll be first every time, they don't know what they're getting themselves into. We're reliable, but we're realistic.\"\nIf they insist on faster guaranteed service: Politely decline—\"I understand that's important to you, but it sounds like we might not be the right fit. I'd hate to take your money if we can't meet your expectations.\"\n\nSnow Depth Qualification Pushback (\"I'm elderly\", \"I have mobility issues\", \"That's too much snow\")\n\nFor 2-inch or 3-inch concerns: \"I completely understand, and I appreciate you being upfront. Unfortunately, we can't guarantee we'll be there before 2 inches falls—that's just the nature of snow removal logistics. If that's a safety concern for you, we might not be the best fit. There are companies that specialize in priority service for folks with mobility needs—they're just structured differently than we are.\"\nIf mobility is a serious concern and they seem genuinely interested: \"I do have one premium route that goes out at just 1 inch of snow. It's more responsive for people who need it. That's $2,400 for the season. Would that be a better fit for your situation?\"\nIf they cannot meet the qualification requirement for any available route: Politely decline service.\n\nSeasonal Commitment Concerns (\"What if it doesn't snow much?\", \"Can I cancel mid-season?\")\n\nResponse: \"It's seasonal, so you're paying for peace of mind whether we get 5 storms or 15. Some years are heavier, some are lighter—it evens out. We don't do per-plow pricing because it's not sustainable for us to stay staffed and ready. You're locking in unlimited service for the season.\"\nOptional story: \"I have customers who've been with us for 10+ years. They know some winters are light, some are heavy. But they're never stuck scrambling when that big storm hits—especially not this late in the season when nobody's taking new customers. That peace of mind is worth it.\"\n\nSalt Questions (\"Why isn't salt included?\", \"Do I need salt?\")\n\nResponse: \"Salt is optional because not everyone wants it—some people have pets, some have concerns about landscaping. It's $300 for the season if you want it added. It helps with ice control and melting, but the core service is snow clearing. Up to you.\"\n\n\"What if you miss a storm?\"\n\nResponse: \"In 15 years, that hasn't happened. We monitor weather constantly and dispatch based on snowfall. We guarantee we'll be there within 24 hours of snow stopping. If there's ever an issue, we make it right, but our track record speaks for itself.\"\n\n\nCustomer Stories & Social Proof\nUse these stories naturally throughout the conversation to build urgency, trust, and handle objections. Don't force them, but weave them in when relevant.\nScarcity & Urgency Stories\n\"I talked to a gentleman two weeks ago who had called six different companies before reaching us—three didn't even call back, three were full. He was relieved we could squeeze him in. This late in the season, routes are filling up fast.\"\n\"Just yesterday I had to turn someone away because their route was completely full. They'd been calling around for three weeks trying to find someone—most companies stopped answering their phones in October. I felt terrible, but there was nothing I could do.\"\n\"Last season, I had a woman call back after thinking about it for a week. Unfortunately, by then the route was closed. She ended up calling me in a panic after the first big storm because she couldn't find anyone—nobody was taking new customers. I wish I could've helped her, but we were maxed out.\"\n\"We started booking in September this year and routes are already 80% full. Most companies closed their books in October. The fact that we're even having this conversation right now means you got lucky.\"\n\"This late in the season, most companies aren't even answering their phones anymore—they're booked solid. The fact that we're even having this conversation means you caught us at the right time.\"\n\"I had a guy call yesterday who'd been trying to reach companies for two weeks straight. Half didn't answer, the other half said they closed booking a month ago. He was just relieved someone picked up the phone and had space. That's where the market is right now.\"\nTrust & Track Record Stories\n\"I've got customers who've been with us for over a decade. They stay because we show up, every time. No drama, no excuses. A lot of them signed up in July or August because they know how hard it is to find anyone this late.\"\n\"One of my long-term customers told me last year that their neighbor tried to go with a cheaper company—the guy showed up three times all season and then ghosted them. They ended up shoveling themselves most of the winter. That's not how we operate.\"\n\"We've been doing this for 15 years. I've personally handled hundreds of customers in this area, and our retention rate is really high. When people find reliable snow removal, they don't leave. And they definitely don't wait until November to book.\"\nValue & Peace of Mind Stories\n\"I had a customer sign up last season who told me they'd been doing it themselves for years. After the first storm, they called to thank me—said they didn't realize how much stress it was taking off their plate. Now they won't go back. They already re-signed for this year back in August.\"\n\"One of my favorite customers is a nurse who works overnight shifts. She told me knowing her driveway will be clear when she gets home in the morning is priceless. She doesn't have to worry about getting stuck or being late.\"\n\"I've got customers who travel for work in the winter. They love that they can leave town and know their property is taken care of. No frantic calls to neighbors asking for favors—especially not at the last minute trying to find coverage.\"\nPrice Comparison Stories\n\"I had someone call me last week who got quoted $2,800 from another company for the same service—if you can even get someone on the phone this late in the season. They were shocked we were $600 less. Honestly, I don't know how we keep our prices this low, but I'm not complaining.\"\n\"A customer told me they called around to five different companies before finding us. Three didn't even call back—completely booked. The other two quoted them an average of $2,700. We're at $2,100. It's a no-brainer when you compare, assuming you can even find availability.\"\n\"Most companies closed their books weeks ago. If you're getting quotes right now, you're either paying a premium or you're getting someone unreliable who's scrambling to fill gaps. We're one of the few established companies still taking on select customers.\"\n\"I had a guy call me yesterday who said he'd been trying to reach companies for two weeks. Half didn't answer, the rest were full. He was just relieved someone picked up the phone. That's where we're at this time of year.\"\n\"If you're calling around trying to compare, you're going to find most people aren't answering. The ones who are? They're either overbooked and unreliable, or they're charging a premium because they know people are desperate. We're neither.\"\nDealing with Difficult Winters\n\"We had that huge storm two winters ago—remember that one that dumped 18 inches overnight? We had every truck out. It took us the full 24 hours to get to everyone, but we hit every single property on the route. No one got missed. Meanwhile, I heard from people whose providers just... didn't show. That's the difference between established companies and fly-by-night operations.\"\n\"I had a customer tell me their previous company just stopped showing up after a couple of heavy storms. They couldn't handle the workload. We've been staffed and equipped for this for 15 years—we don't overbook and then bail. That's why we close routes when they're full instead of taking anyone who calls.\"\n\nGuardrails\n\nOnly offer snow removal services. Do not discuss other services.\nALWAYS start with the 2-inch trigger service at $2,100.\nOnly offer the 3-inch option ($1,800) AFTER standard price objection handling.\nOnly offer the 1-inch premium option ($2,400) if the customer requests more frequent service or has serious mobility concerns.\nIf a customer cannot meet the snow depth qualification for any available route, politely decline to offer service.\nIf a customer requires guaranteed snow removal in less than 24 hours after snowfall, politely decline to offer service.\nDo not lower prices below the established service tiers ($1,800 / $2,100 / $2,400).\nDo not offer partial service discounts—the price is the same regardless of which hard surfaces the customer wants cleared.\nDo not offer services outside of the seasonal timeframe (first snowfall to last snowfall).\nIf a customer does not agree to both qualification requirements, thank them politely and end the call professionally.\nUse customer stories naturally and conversationally—don't read them verbatim or force them into every call.\nEmphasize the \"late in the season\" scarcity naturally throughout the conversation—it's November, most companies are closed, and availability is extremely limited.\nOnly mention the company name \"Metro Snow Services\" if the customer directly asks which company you're calling from.\nOnly mention company location (Denver with warehouses in Loveland) if the customer directly asks where you're located.",
+                "llm": "gemini-2.5-flash",
+                "thinking_budget": 0,
+                "temperature": 0.35,
+                "max_tokens": -1,
+                "tool_ids": [],
+                "built_in_tools": {
+                    "transfer_to_number": {
+                        "type": "system",
+                        "name": "transfer_to_number",
+                        "description": "",
+                        "response_timeout_secs": 20,
+                        "disable_interruptions": true,
+                        "force_pre_tool_speech": false,
+                        "assignments": [],
+                        "tool_call_sound": null,
+                        "tool_call_sound_behavior": "auto",
+                        "params": {
+                            "system_tool_type": "transfer_to_number",
+                            "transfers": [
+                                {
+                                    "transfer_destination": {
+                                        "type": "phone",
+                                        "phone_number": "+18134401402"
+                                    },
+                                    "phone_number": "+18134401402",
+                                    "condition": "The customer is closed and wants service.",
+                                    "transfer_type": "conference"
+                                }
+                            ],
+                            "enable_client_message": true
+                        }
+                    }
+                },
+                "mcp_server_ids": [],
+                "native_mcp_server_ids": [],
+                "knowledge_base": [],
+                "ignore_default_personality": false,
+                "rag": {
+                    "enabled": false,
+                    "embedding_model": "e5_mistral_7b_instruct",
+                    "max_vector_distance": 0.6,
+                    "max_documents_length": 50000,
+                    "max_retrieved_rag_chunks_count": 20
+                },
+                "backup_llm_config": {
+                    "preference": "default"
+                },
+                "tools": [
+                    {
+                        "type": "system",
+                        "name": "transfer_to_number",
+                        "description": "",
+                        "response_timeout_secs": 20,
+                        "disable_interruptions": true,
+                        "force_pre_tool_speech": false,
+                        "assignments": [],
+                        "tool_call_sound": null,
+                        "tool_call_sound_behavior": "auto",
+                        "params": {
+                            "system_tool_type": "transfer_to_number",
+                            "transfers": [
+                                {
+                                    "transfer_destination": {
+                                        "type": "phone",
+                                        "phone_number": "+18134401402"
+                                    },
+                                    "phone_number": "+18134401402",
+                                    "condition": "The customer is closed and wants service.",
+                                    "transfer_type": "conference"
+                                }
+                            ],
+                            "enable_client_message": true
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    "platform_settings": {
+        "evaluation": {
+            "criteria": []
+        },
+        "widget": {
+            "variant": "full",
+            "placement": "bottom-right",
+            "expandable": "never",
+            "avatar": {
+                "type": "orb",
+                "color1": "#2792dc",
+                "color2": "#9ce6e6"
+            },
+            "feedback_mode": "during",
+            "end_feedback": null,
+            "bg_color": "#ffffff",
+            "text_color": "#000000",
+            "btn_color": "#000000",
+            "btn_text_color": "#ffffff",
+            "border_color": "#e1e1e1",
+            "focus_color": "#000000",
+            "shareable_page_show_terms": true,
+            "terms_text": "#### Terms and conditions\n\nBy clicking \"Agree,\" and each time I interact with this AI agent, I consent to the recording, storage, and sharing of my communications with third-party service providers, and as described in the Privacy Policy.\nIf you do not wish to have your conversations recorded, please refrain from using this service.",
+            "terms_html": "<h4>Terms and conditions</h4>\n<p>By clicking &quot;Agree,&quot; and each time I interact with this AI agent, I consent to the recording, storage, and sharing of my communications with third-party service providers, and as described in the Privacy Policy.\nIf you do not wish to have your conversations recorded, please refrain from using this service.</p>\n",
+            "show_avatar_when_collapsed": false,
+            "disable_banner": false,
+            "mic_muting_enabled": false,
+            "transcript_enabled": false,
+            "text_input_enabled": true,
+            "default_expanded": false,
+            "always_expanded": false,
+            "text_contents": {},
+            "styles": {},
+            "language_selector": false,
+            "supports_text_only": true,
+            "language_presets": {}
+        },
+        "data_collection": {},
+        "overrides": {
+            "conversation_config_override": {
+                "turn": {
+                    "soft_timeout_config": {
+                        "message": false
+                    }
+                },
+                "tts": {
+                    "voice_id": false,
+                    "stability": false,
+                    "speed": false,
+                    "similarity_boost": false
+                },
+                "conversation": {
+                    "text_only": true
+                },
+                "agent": {
+                    "first_message": false,
+                    "language": false,
+                    "prompt": {
+                        "prompt": false,
+                        "llm": false,
+                        "native_mcp_server_ids": false
+                    }
+                }
+            },
+            "custom_llm_extra_body": false,
+            "enable_conversation_initiation_client_data_from_webhook": false
+        },
+        "workspace_overrides": {
+            "webhooks": {
+                "events": [
+                    "transcript"
+                ],
+                "send_audio": false
+            }
+        },
+        "testing": {
+            "attached_tests": [],
+            "referenced_tests_ids": []
+        },
+        "archived": false,
+        "guardrails": {
+            "version": "1",
+            "moderation": {
+                "config": {
+                    "sexual": {
+                        "is_enabled": false,
+                        "threshold": 0.3
+                    },
+                    "violence": {
+                        "is_enabled": false,
+                        "threshold": 0.3
+                    },
+                    "violence_graphic": {
+                        "is_enabled": false,
+                        "threshold": 0.3
+                    },
+                    "harassment": {
+                        "is_enabled": false,
+                        "threshold": 0.3
+                    },
+                    "harassment_threatening": {
+                        "is_enabled": false,
+                        "threshold": 0.3
+                    },
+                    "hate": {
+                        "is_enabled": false,
+                        "threshold": 0.3
+                    },
+                    "hate_threatening": {
+                        "is_enabled": false,
+                        "threshold": 0.3
+                    },
+                    "self_harm_instructions": {
+                        "is_enabled": false,
+                        "threshold": 0.3
+                    },
+                    "self_harm": {
+                        "is_enabled": false,
+                        "threshold": 0.3
+                    },
+                    "self_harm_intent": {
+                        "is_enabled": false,
+                        "threshold": 0.3
+                    },
+                    "sexual_minors": {
+                        "is_enabled": false,
+                        "threshold": 0.3
+                    }
+                }
+            }
+        },
+        "auth": {
+            "enable_auth": false,
+            "allowlist": []
+        },
+        "call_limits": {
+            "agent_concurrency_limit": -1,
+            "daily_limit": 100000,
+            "bursting_enabled": true
+        },
+        "ban": null,
+        "privacy": {
+            "record_voice": true,
+            "retention_days": -1,
+            "delete_transcript_and_pii": false,
+            "delete_audio": false,
+            "apply_to_existing_conversations": false,
+            "zero_retention_mode": false
+        },
+        "safety": {
+            "is_blocked_ivc": false,
+            "is_blocked_non_ivc": false,
+            "ignore_safety_evaluation": false
+        }
+    },
+    "tags": [],
+    "workflow": {
+        "edges": {},
+        "nodes": {
+            "start_node": {
+                "type": "start",
+                "position": {
+                    "x": 0,
+                    "y": 0
+                },
+                "edge_order": []
+            }
+        }
+    }
+}
