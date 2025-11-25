@@ -1,10 +1,10 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, Suspense } from 'react'
 import { useForm } from 'react-hook-form'
 import Button from '@/components/ui/Button'
 import Input from '@/components/ui/Input'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 
 interface FormData {
   firstName: string
@@ -12,6 +12,7 @@ interface FormData {
   email: string
   phone: string
   company: string
+  package: string
 }
 
 interface TimeSlot {
@@ -46,11 +47,24 @@ interface MeetingLink {
 // Fixed 15 minute consultation duration
 const MEETING_DURATION = 900000 // 15 min in milliseconds
 
-export default function ContactPage() {
+// Package options
+const PACKAGE_OPTIONS = [
+  { value: '', label: 'Select a package...' },
+  { value: 'foundation', label: 'Foundation - $3,500 + $697/mo' },
+  { value: 'complete-system', label: 'Complete System - $9,500 + $1,997/mo' },
+  { value: 'enterprise-growth', label: 'Enterprise Growth - $15,000 + $3,997/mo' },
+  { value: 'not-sure', label: "Not sure yet - let's discuss" },
+]
+
+function ContactPageContent() {
   const router = useRouter()
+  const searchParams = useSearchParams()
   const [isLoading, setIsLoading] = useState(true)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
+
+  // Get package from URL param
+  const packageParam = searchParams.get('package') || ''
 
   // Meeting data
   const [meetingLinks, setMeetingLinks] = useState<MeetingLink[]>([])
@@ -69,7 +83,19 @@ export default function ContactPage() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormData>()
+    setValue,
+  } = useForm<FormData>({
+    defaultValues: {
+      package: packageParam,
+    },
+  })
+
+  // Set package from URL param on mount
+  useEffect(() => {
+    if (packageParam) {
+      setValue('package', packageParam)
+    }
+  }, [packageParam, setValue])
 
   // Fetch meeting links on mount
   useEffect(() => {
@@ -221,6 +247,7 @@ export default function ContactPage() {
           timezone,
           formFields: {
             company: data.company,
+            package: data.package,
           },
         }),
       })
@@ -438,10 +465,11 @@ export default function ContactPage() {
                   />
 
                   <Input
-                    label="Phone"
+                    label="Phone *"
                     type="tel"
-                    {...register('phone')}
-                    placeholder="(952) 314-3814"
+                    {...register('phone', { required: 'Phone number is required' })}
+                    error={errors.phone?.message}
+                    placeholder="(555) 123-4567"
                   />
 
                   <Input
@@ -449,6 +477,28 @@ export default function ContactPage() {
                     {...register('company')}
                     placeholder="Your Company LLC"
                   />
+
+                  {/* Package Selection Dropdown */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Package Interest *
+                    </label>
+                    <select
+                      {...register('package', { required: 'Please select a package' })}
+                      className={`w-full px-4 py-3 rounded-lg border ${
+                        errors.package ? 'border-red-500' : 'border-gray-200'
+                      } focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-colors bg-white text-dark`}
+                    >
+                      {PACKAGE_OPTIONS.map((option) => (
+                        <option key={option.value} value={option.value}>
+                          {option.label}
+                        </option>
+                      ))}
+                    </select>
+                    {errors.package && (
+                      <p className="mt-1 text-sm text-red-500">{errors.package.message}</p>
+                    )}
+                  </div>
 
                   <Button
                     type="submit"
@@ -479,5 +529,29 @@ export default function ContactPage() {
         </div>
       </section>
     </div>
+  )
+}
+
+export default function ContactPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="pt-20">
+          <section className="py-20 bg-gradient-to-br from-primary/10 to-secondary/10">
+            <div className="container mx-auto px-4">
+              <div className="max-w-5xl mx-auto text-center">
+                <div className="animate-pulse">
+                  <div className="h-12 bg-gray-200 rounded w-3/4 mx-auto mb-4"></div>
+                  <div className="h-6 bg-gray-200 rounded w-1/2 mx-auto mb-12"></div>
+                  <div className="bg-white rounded-2xl shadow-xl p-8 h-96"></div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      }
+    >
+      <ContactPageContent />
+    </Suspense>
   )
 }

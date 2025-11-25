@@ -224,7 +224,7 @@ export default function PricingSection() {
 
                   {/* CTA */}
                   {tier.action === 'contact' ? (
-                    <Link href="/contact" className="block">
+                    <Link href={`/contact?package=${tier.name.toLowerCase().replace(/\s+/g, '-')}`} className="block">
                       <Button variant={tier.variant} className="w-full" pulse={tier.highlighted}>
                         {tier.cta}
                         <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -233,17 +233,18 @@ export default function PricingSection() {
                       </Button>
                     </Link>
                   ) : (
-                    <Button
-                      variant={tier.variant}
-                      className="w-full"
-                      onClick={scrollToCalculator}
-                      pulse={tier.highlighted}
-                    >
-                      {tier.cta}
-                      <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
-                      </svg>
-                    </Button>
+                    <Link href={`/contact?package=${tier.name.toLowerCase().replace(/\s+/g, '-')}`} className="block">
+                      <Button
+                        variant={tier.variant}
+                        className="w-full"
+                        pulse={tier.highlighted}
+                      >
+                        {tier.cta}
+                        <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
+                      </Button>
+                    </Link>
                   )}
                 </div>
               </div>
