@@ -66,6 +66,11 @@ export default function Footer() {
                   </Link>
                 </li>
                 <li>
+                  <Link href="/research" className="hover:text-white transition-colors">
+                    Research & Citations
+                  </Link>
+                </li>
+                <li>
                   <Link href="/contact" className="hover:text-white transition-colors">
                     Contact
                   </Link>
